@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ <mapper namespace="com.bsg.api.dao.OperatelogDao">
+    <resultMap id="ResultMap" type="com.bsg.api.entity.Operatelog">
+        <result property="id" column="id"></result>
+        <result property="operatePage" column="operate_page"></result>
+    </resultMap>
+</mapper>
