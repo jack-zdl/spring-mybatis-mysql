@@ -22,12 +22,13 @@ import java.util.Map;
  */
 
 @Service("loginService")
-public class LoginServiceImpl extends BaseService{
+public class LoginService extends BaseService{
 
-    private static Logger logger = Logger.getLogger(LoginServiceImpl.class);
+    private static Logger logger = Logger.getLogger(LoginService.class);
 
     @Resource
     private UserDao userDao;
+   ;
 
     /**
      * @description 登录方法 

@@ -4,5 +4,39 @@
     <resultMap id="ResultMap" type="com.bsg.api.entity.Operatelog">
         <result property="id" column="id"></result>
         <result property="operatePage" column="operate_page"></result>
+        <result property="operateType" column="operate_type"></result>
+        <result property="operator" column="operator"></result>
+        <result property="operateTime" column="operate_time"></result>
+        <result property="operateDesc" column="operate_desc"></result>
     </resultMap>
+
+    <insert id="save" parameterType="com.bsg.api.entity.Operatelog">
+        INSERT INTO tbl_operatelog
+        (
+          operate_page,
+          operate_type,
+          operator,
+          operate_time,
+          operate_desc,
+        )
+        VALUES
+        (
+        #{operatePage},
+        #{operateType},
+        #{operator},
+        #{operateTime},
+        #{operateDesc},
+        )
+    </insert>
+
+    <update id="update" parameterType="java.util.Map">
+        UPDATE  tbl_operatelog
+        <set>
+            <if test="operatePage !=null ">operate_page =#{operatePage}</if>
+            <if test="operateType !=null">operate_type =#{operateType}</if>
+            <if test="operator !=null">operator =#{operator}</if>
+            <if test="operateTime !=null">operate_time=#{operateTime}</if>
+            <if test="operateDesc !=null">operate_desc =#{operateDesc}</if>
+        </set>
+    </update>
 </mapper>

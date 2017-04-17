@@ -1,6 +1,6 @@
 package com.bsg.api.controller;
 
-import com.bsg.api.service.LoginServiceImpl;
+import com.bsg.api.service.LoginService;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class LoginController {
 
     @Resource
-    private LoginServiceImpl loginService;
+    private LoginService loginService;
     /**
      * @description 登录控制层
      * @// TODO: 2017/3/29  1 异常使用类型错误换成APIException 2

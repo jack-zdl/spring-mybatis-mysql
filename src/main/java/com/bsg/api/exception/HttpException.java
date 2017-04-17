@@ -2,6 +2,7 @@ package com.bsg.api.exception;
 
 /**
  * Created by zhang on 2017/3/28.
+ * @description 代表http接口运行出错
  */
 public class HttpException extends Exception {
 
