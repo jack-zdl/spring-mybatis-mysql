@@ -6,8 +6,7 @@
         <result property="name" column="name"></result>
         <result property="password" column="password"></result>
         <result property="validate" column="validate"></result>
-        <result property="createDateTime" column="create_datetime"></result>
-        <result property="createUserLoginName" column="create_user_id"></result>
+        <result property="money" column="money"></result>
     </resultMap>
 
     <select id="list" resultMap="ResultMap">
@@ -35,12 +34,22 @@
         </if>
     </select>
 
-    <update id="update" parameterType="java.util.Map" >
+    <update id="update" parameterType="com.bsg.api.entity.UserEntity" >
         UPDATE tbl_user
         <set>
-            <if test="price !=null">price = #{price}</if>
-            <if test="number != null"> number = #{number}</if>
+            <if test="name != null">
+                name =#{name},
+            </if>
+            <if test="password != null">
+                password =#{password},
+            </if>
+            <if test="validate != null">
+                validate =#{validate},
+            </if>
+            <if test="money != null">
+                money =#{money}
+            </if>
         </set>
-        WHERE  id = #{id}
+        WHERE  username = #{username}
     </update>
 </mapper>

@@ -10,11 +10,10 @@
 ```
 ## 1mysql下mybatis框架的基本sql数据操作语言（DML）语句
 ```
-    insert语句
+    insert语句 insert
 ```
 ## 2mysql下的事物管理和mybatis的事物管理
 ```
-
 ```
 ## 3打印日志信息，将日志下载到某个位置等待查看
 ```

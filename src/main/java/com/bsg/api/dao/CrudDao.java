@@ -36,8 +36,8 @@ public interface CrudDao<T> {
      * @param entity
      * @return
      */
-    int update(T entity);
-
+   int update(T entity);
+    //int update(Map param);
     /**
      * @description 删除
      * @param id

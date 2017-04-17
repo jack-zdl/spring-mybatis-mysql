@@ -32,7 +32,6 @@ public class BookController {
     public RespJson list(HttpServletRequest request, @RequestBody Map<String,Object> param){
         RespJson respJson = null;
         try{
-
         }catch(Exception e){
             System.out.print(e.getMessage());
         }

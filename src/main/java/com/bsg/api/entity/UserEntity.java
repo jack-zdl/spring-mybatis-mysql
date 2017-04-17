@@ -27,6 +27,10 @@ public class UserEntity extends BaseEntity implements Serializable{
      * @description 是否有效
      */
     private Boolean validate;
+    /**
+     * @descriptio 金额
+     */
+    private String money;
 
     public String getUsername() {
         return username;
@@ -63,12 +67,21 @@ public class UserEntity extends BaseEntity implements Serializable{
     public UserEntity() {
     }
 
-    public UserEntity(Date createDateTime, String createUserLoginName, String username, String name, String password, Boolean validate) {
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public UserEntity(Date createDateTime, String createUserLoginName, String username, String name, String password, Boolean validate, String money) {
         super(createDateTime, createUserLoginName);
         this.username = username;
         this.name = name;
         this.password = password;
         this.validate = validate;
+        this.money = money;
     }
 
     @Override
@@ -78,6 +91,7 @@ public class UserEntity extends BaseEntity implements Serializable{
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", validate=" + validate +
+                ", money='" + money + '\'' +
                 '}';
     }
 }

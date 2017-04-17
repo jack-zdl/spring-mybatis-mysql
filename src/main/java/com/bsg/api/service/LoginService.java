@@ -22,16 +22,15 @@ import java.util.Map;
  */
 
 @Service("loginService")
-public class LoginService extends BaseService{
+public class LoginService {
 
     private static Logger logger = Logger.getLogger(LoginService.class);
 
     @Resource
     private UserDao userDao;
-   ;
 
     /**
-     * @description 登录方法 
+     * @description 登录方法
      * @// TODO: 2017/3/29  1添加日志操作
      * @param request
      * @param param
@@ -41,7 +40,7 @@ public class LoginService extends BaseService{
     public RespJson login(HttpServletRequest request, Map<String,Object> param) throws APIException {
         RespJson respJson = null;
         try {
-           // String password = (String) param.get("password");
+            // String password = (String) param.get("password");
             UserEntity user = userDao.getUser(param);
             if(user == null){
                 return RespJsonFactory.buildWarning("用户名密码错误");
@@ -60,4 +59,8 @@ public class LoginService extends BaseService{
             throw new APIException("账号密码验证异常:" + e.getMessage());
         }
     }
+
+    ;
+
+
 }
