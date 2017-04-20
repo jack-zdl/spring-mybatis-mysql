@@ -2,6 +2,7 @@ package com.bsg.api.controller;
 
 import com.bsg.api.service.BookService;
 import com.bsg.api.util.RespJson;
+import com.bsg.api.util.RespJsonFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,22 +38,42 @@ public class BookController {
         }
         return  respJson;
     }
-
     /**
-     * @description 1购买书籍，改变书籍数量，改变用户金额
+     * @description  单个tx  1购买书籍，改变书籍数量，改变用户金额
      * @param request
      * @param param
      * @return
      */
-    @RequestMapping("/update")
+    @RequestMapping("/update/oneTx")
     @ResponseBody
-    public RespJson updateBook(HttpServletRequest request, @RequestBody Map<String,Object> param){
+    public RespJson updateBookByOneTx(HttpServletRequest request, @RequestBody Map<String,Object> param) {
+        RespJson respJson = null;
+        try {
+            respJson = bookService.updateBookByOneTx(request, param);
+        } catch (Exception e) {
+            respJson = RespJsonFactory.buildFailure("购买书籍失败");
+            e.printStackTrace();
+        }finally {
+            return respJson;
+        }
+    }
+        /**
+         * @description 多个tx 1购买书籍，改变书籍数量，改变用户金额
+         * @param request
+         * @param param
+         * @return
+         */
+    @RequestMapping("/update/moreTx")
+    @ResponseBody
+    public RespJson updateBookByMoreTx(HttpServletRequest request, @RequestBody Map<String,Object> param){
         RespJson respJson = null;
         try{
-            respJson = bookService.updateBook(request, param);
+            respJson = bookService.updateBookByMoreTx(request, param);
         }catch (Exception e){
+            respJson = RespJsonFactory.buildFailure("购买书籍失败");
             e.printStackTrace();
+        }finally {
+            return respJson;
         }
-        return respJson;
     }
 }

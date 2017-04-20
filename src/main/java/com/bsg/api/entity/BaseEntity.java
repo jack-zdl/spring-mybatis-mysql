@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by zhang on 2017/3/29.
  */
 public class BaseEntity {
+
     /**
      * 创建时间
      */

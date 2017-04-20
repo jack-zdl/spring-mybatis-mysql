@@ -26,15 +26,14 @@ public class LoginAspect {
 
     @Pointcut("execution(public * com.bsg.api.controller.*.*(..))" +
             "&& !execution(public * com.bsg.api.controller.LoginController.*(..))")
-    public void pointcut(){
+    public void pointcut() {
     }
 
-//    @Before("pointcut()")
+    //    @Before("pointcut()")
 //    public Object beforeMethod(JoinPoint joinPoint) throws Throwable {
 //        String methodName = joinPoint.getSignature().getName();//
 //        List<Object> list = Arrays.asList(joinPoint.getArgs());
 //        HttpServletRequest request = null;
-////        DictConstants constants = DictConstants.session_user;
 //        //获得目标的HttpServletRequest
 //        System.out.println("进入beford");
 //        for (int i = 0; i < list.size(); i++){
@@ -61,20 +60,19 @@ public class LoginAspect {
                 .getRequest();
         String token = getUserToken(httpServletRequest);
         if (!token.equalsIgnoreCase("123456")) {
-            System.out.println( "错误, 权限不合法!");
-        }else {
-            System.out.println("正确，权限合法");
+            //  System.out.println( "错误, 权限不合法!");
+        } else {
+            // System.out.println("正确，权限合法");
         }
 
-        System.out.println("进入around");
-        for (int i = 0; i < list.size(); i++){
-            if(list.get(i) instanceof HttpServletRequest ){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) instanceof HttpServletRequest) {
                 request = (HttpServletRequest) list.get(i);
             }
         }
-        if(request != null && request.getSession().getAttribute(SysConstants.SESSION_USER) == null){
+        if (request != null && request.getSession().getAttribute(SysConstants.SESSION_USER) == null) {
             return RespJsonFactory.buildWarning("用户未登录");
-        }else {
+        } else {
             return pjp.proceed();
         }
 

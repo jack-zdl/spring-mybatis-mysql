@@ -3,12 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		">
@@ -35,35 +38,20 @@
     </bean>
 
     <!-- dataSource druid -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-          init-method="init" destroy-method="close">
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
-        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="driverClass" value="${jdbc.driver}" />
 
         <!-- 基本属性 url、user、password -->
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
+        <property name="jdbcUrl" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.username}" />
         <property name="password" value="${jdbc.password}" />
 
         <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="${jdbc.pool.init}" />
-        <property name="minIdle" value="${jdbc.pool.minIdle}" />
-        <property name="maxActive" value="${jdbc.pool.maxActive}" />
+        <property name="initialPoolSize" value="${jdbc.pool.init}" />
+        <property name="minPoolSize" value="${jdbc.pool.minIdle}" />
+        <property name="maxPoolSize" value="${jdbc.pool.maxActive}" />
 
-        <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="${jdbc.pool.maxWait}" />
-
-        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="${jdbc.pool.timeBetweenEvictionRunsMillis}" />
-
-        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="${jdbc.pool.minEvictableIdleTimeMillis}" />
-
-        <property name="validationQuery" value="${jdbc.testSql}" />
-        <property name="testWhileIdle" value="true" />
-        <property name="testOnBorrow" value="false" />
-        <property name="testOnReturn" value="false" />
-        <property name="maxOpenPreparedStatements" value="100" />
     </bean>
 
 
@@ -74,7 +62,7 @@
         <property name="dataSource" ref="dataSource" />
         <!-- 自动扫描mapping.xml文件 -->
         <property name="mapperLocations" value="classpath:mapping/*.xml"></property>
-        <!-- -->
+        <!--自动扫面mybatis的其他配置文件 -->
         <property name="configLocation" value="classpath:config/mybatis-config.xml" />
     </bean>
 
@@ -97,7 +85,14 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <!--
+        相关属性：1 mode:指定Spring事务管理框架创建通知bean的方式。可用的值有proxy和aspectj。
+                前者是默认值，表示通知对象是个JDK代理；后者表示Spring AOP会使用AspectJ创建代理
+                2 proxy-target-class：如果为true，Spring将创建子类来代理业务类；
+                如果为false，则使用基于接口的代理。（如果使用子类代理，需要在类路径中添加CGLib.jar类库）
+                3 order：如果业务类除事务切面外，还需要织入其他的切面，通过该属性可以控制事务切面在目标连接点的织入顺序。
+                4 transaction-manager：指定到现有的PlatformTransaction Manager bean的引用，通知会使用该引用
+     -->
+    <tx:annotation-driven  transaction-manager="transactionManager"/>
 
 </beans>

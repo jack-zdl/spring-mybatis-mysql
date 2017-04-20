@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class BookEntity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     /**
      * @description 书籍编码
      */

@@ -22,7 +22,6 @@ public class LoginController {
     private LoginService loginService;
     /**
      * @description 登录控制层
-     * @// TODO: 2017/3/29  1 异常使用类型错误换成APIException 2
      * @param request
      * @param param
      * @return

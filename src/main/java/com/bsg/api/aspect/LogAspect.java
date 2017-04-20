@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by zhang on 2017/3/29.
+ *
  * @description 日志切面编程
  */
 @Order(2)
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LogAspect {
     @Pointcut("execution(public * com.bsg.api.service.*.*(..))")
-    public void pointCut(){
+    public void pointCut() {
     }
+
     @Before("pointCut()")
-    public void beforeMethod(JoinPoint joinPoint){
-        System.out.println("》》》》》》》》》》》》日志切面编程》》》》》》》》》》");
+    public void beforeMethod(JoinPoint joinPoint) {
+        Object[] objects = joinPoint.getArgs();
+
     }
 }

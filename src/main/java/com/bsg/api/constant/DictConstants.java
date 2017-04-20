@@ -1,9 +1,9 @@
 package com.bsg.api.constant;
 
 /**
- * Created by zhang on 2017/3/29.
+ * Created by zhang on 2017/4/20.
  */
-public enum DictConstants {
-   session_user
-
+public class DictConstants {
+    public static final String BUTTON_UPDATE = "update-button";
+    public static final String BUTTON_LOGIN = "login-button";
 }

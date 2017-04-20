@@ -6,7 +6,6 @@ import java.util.Map;
 /**
  * Created by zhang on 2017/3/28.
  * @description 这是使用了泛型，具体根据传入的值来判断传入类型
- * @// TODO: 2017/3/28 做增删改查一些基本的查询
  */
 public interface CrudDao<T> {
 
