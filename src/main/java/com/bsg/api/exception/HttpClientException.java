@@ -2,16 +2,17 @@ package com.bsg.api.exception;
 
 /**
  * Created by zhang on 2017/3/28.
+ *
  * @description 代表http接口运行出错
  */
-public class HttpException extends Exception {
+public class HttpClientException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public HttpException() {
+    public HttpClientException() {
     }
 
-    public HttpException(String message) {
+    public HttpClientException(String message) {
         super(message);
     }
 
@@ -19,11 +20,11 @@ public class HttpException extends Exception {
         super(message, cause);
     }
 
-    public HttpException(Throwable cause) {
+    public HttpClientException(Throwable cause) {
         super(cause);
     }
 
-    public HttpException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public HttpClientException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

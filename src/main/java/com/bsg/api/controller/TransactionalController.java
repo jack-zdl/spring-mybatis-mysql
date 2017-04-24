@@ -1,6 +1,6 @@
 package com.bsg.api.controller;
 
-import com.bsg.api.service.BookService;
+import com.bsg.api.service.TransactionalService;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
 import org.springframework.stereotype.Controller;
@@ -17,62 +17,64 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("v1.0/book")
-public class BookController {
+public class TransactionalController {
 
     @Resource
-    private BookService bookService;
+    private TransactionalService bookService;
 
     /**
-     * @description 1获得所有的书籍 2查询某一个书籍的个数
      * @param request
      * @param param
      * @return
+     * @description 1获得所有的书籍 2查询某一个书籍的个数
      */
     @RequestMapping("/list")
     @ResponseBody
-    public RespJson list(HttpServletRequest request, @RequestBody Map<String,Object> param){
+    public RespJson list(HttpServletRequest request, @RequestBody Map<String, Object> param) {
         RespJson respJson = null;
-        try{
-        }catch(Exception e){
+        try {
+        } catch (Exception e) {
             System.out.print(e.getMessage());
         }
-        return  respJson;
+        return respJson;
     }
+
     /**
-     * @description  单个tx  1购买书籍，改变书籍数量，改变用户金额
      * @param request
      * @param param
      * @return
+     * @description 单个tx  1购买书籍，改变书籍数量，改变用户金额
      */
     @RequestMapping("/update/oneTx")
     @ResponseBody
-    public RespJson updateBookByOneTx(HttpServletRequest request, @RequestBody Map<String,Object> param) {
+    public RespJson updateBookByOneTx(HttpServletRequest request, @RequestBody Map<String, Object> param) {
         RespJson respJson = null;
         try {
             respJson = bookService.updateBookByOneTx(request, param);
         } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure("购买书籍失败");
             e.printStackTrace();
-        }finally {
+        } finally {
             return respJson;
         }
     }
-        /**
-         * @description 多个tx 1购买书籍，改变书籍数量，改变用户金额
-         * @param request
-         * @param param
-         * @return
-         */
+
+    /**
+     * @param request
+     * @param param
+     * @return
+     * @description 多个tx 1购买书籍，改变书籍数量，改变用户金额
+     */
     @RequestMapping("/update/moreTx")
     @ResponseBody
-    public RespJson updateBookByMoreTx(HttpServletRequest request, @RequestBody Map<String,Object> param){
+    public RespJson updateBookByMoreTx(HttpServletRequest request, @RequestBody Map<String, Object> param) {
         RespJson respJson = null;
-        try{
+        try {
             respJson = bookService.updateBookByMoreTx(request, param);
-        }catch (Exception e){
+        } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure("购买书籍失败");
             e.printStackTrace();
-        }finally {
+        } finally {
             return respJson;
         }
     }
