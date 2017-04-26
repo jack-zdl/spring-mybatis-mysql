@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by zhang on 2017/3/28.
  */
-public class BookEntity implements Serializable {
+public class BookEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**

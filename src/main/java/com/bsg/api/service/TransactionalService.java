@@ -26,9 +26,9 @@ import java.util.Map;
  * Created by zhang on 2017/3/28.
  */
 @Service("bookService")
-public class BookService extends BaseService {
+public class TransactionalService extends BaseService {
 
-    private static Logger logger = Logger.getLogger(BookService.class);
+    private static Logger logger = Logger.getLogger(TransactionalService.class);
     @Resource
     private BookDao bookDao;
     @Resource
@@ -94,7 +94,7 @@ public class BookService extends BaseService {
     }
 
     @Override
-    public RespJson remove(HttpServletRequest request, Map<String, Object> param) throws APIException {
+    public RespJson remove(HttpServletRequest request, String id) throws APIException {
         return null;
     }
 
@@ -104,6 +104,7 @@ public class BookService extends BaseService {
      *         bookId(唯一) boookNumber userId(系统自己判断)
      * @return
      * @description 1更新书籍数量 2更新用户信息 使用单个事物管理
+     * @description
      */
     @Transactional(rollbackFor = APIException.class)
     public RespJson updateBookByOneTx(HttpServletRequest request, Map<String, Object> param) throws APIException {
@@ -112,9 +113,9 @@ public class BookService extends BaseService {
         UserEntity userEntity = (UserEntity) session.getAttribute(SysConstants.SESSION_USER);
         try {
             String bookId = (String) param.get("id");
-            BookEntity bookEntity = bookDao.get(bookId);
+            BookEntity bookEntity = bookDao.get(bookId);//一次查询
             bookEntity.setNumber(String.valueOf(Integer.parseInt(bookEntity.getNumber()) - Integer.parseInt((String) param.get("number"))));
-            bookDao.update(bookEntity);
+            bookDao.update(bookEntity); //一次更新
             int number = Integer.parseInt(bookEntity.getNumber());
             if (0 > number) {
                 logger.error("书的库存不足。");
@@ -126,7 +127,7 @@ public class BookService extends BaseService {
             Map<String, Object> userMap = new HashMap<String, Object>();
             userMap.put("username", userEntity.getUsername());
             userMap.put("password", userEntity.getPassword());
-            UserEntity userEntity1 = userDao.getUser(userMap);
+            UserEntity userEntity1 = userDao.getUser(userMap); //
             String price = bookEntity.getPrice();
             String bookNumber = (String) param.get("number");
             int bookPrice = Integer.parseInt((String.valueOf(Integer.parseInt(bookNumber) * Integer.parseInt(price))));

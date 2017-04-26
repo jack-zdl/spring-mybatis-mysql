@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * @description 基于消息的队列模式
  */
-public class Consumer1 {
+public class ConsumerQueue {
     private final static String QUEUE_NAME = "hello";
 
     public static void main(String[] argv) throws Exception {

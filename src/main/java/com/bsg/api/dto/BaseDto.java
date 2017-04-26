@@ -7,10 +7,6 @@ import java.util.Date;
  */
 public class BaseDto {
     /**
-     * @description id
-     */
-    private String id;
-    /**
      * @description 创建者
      */
     private String createUserName;
@@ -18,14 +14,6 @@ public class BaseDto {
      * @description 创建时间
      */
     private Date createDateTime;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCreateUserName() {
         return createUserName;
@@ -41,5 +29,13 @@ public class BaseDto {
 
     public void setCreateDateTime(Date createDateTime) {
         this.createDateTime = createDateTime;
+    }
+
+    public BaseDto(String createUserName, Date createDateTime) {
+        this.createUserName = createUserName;
+        this.createDateTime = createDateTime;
+    }
+
+    public BaseDto() {
     }
 }

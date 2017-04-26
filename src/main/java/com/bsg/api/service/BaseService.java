@@ -22,7 +22,7 @@ import java.util.Map;
 @Service()
 public abstract class BaseService {
 
-    private static Logger logger = Logger.getLogger(BookService.class);
+    private static Logger logger = Logger.getLogger(BaseService.class);
 
     @Resource
     private OperatelogDao operatelogDao;
@@ -117,5 +117,5 @@ public abstract class BaseService {
      * @return
      * @description 删除
      */
-    public abstract RespJson remove(HttpServletRequest request, Map<String, Object> param) throws APIException;
+    public abstract RespJson remove(HttpServletRequest request, String id) throws APIException;
 }

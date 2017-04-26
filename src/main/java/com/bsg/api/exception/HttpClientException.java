@@ -16,7 +16,7 @@ public class HttpClientException extends Exception {
         super(message);
     }
 
-    public HttpException(String message, Throwable cause) {
+    public HttpClientException(String message, Throwable cause) {
         super(message, cause);
     }
 

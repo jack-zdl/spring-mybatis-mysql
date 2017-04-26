@@ -103,7 +103,7 @@ public class UserService extends BaseService {
      * @description 删除用户
      */
     @Override
-    public RespJson remove(HttpServletRequest request, Map<String, Object> param) throws APIException {
+    public RespJson remove(HttpServletRequest request, String id) throws APIException {
         return null;
     }
 }
