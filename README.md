@@ -63,13 +63,16 @@
 ```
 ## 7spring文件下载
 ```
-
+上传文件 第一种是基于流的方式上传文件 CommonsMultipartFile
+上传文件 第二种是基于spring的方式 推荐使用spring的方式速度快
 ```
 ## 8spring的缓存
 ```
+待完成
 ```
 ## 9spring的认证
 ```
+shiro 和 security
 ```
 # ms-web监控平台
 ```
