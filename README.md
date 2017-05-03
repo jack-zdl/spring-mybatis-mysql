@@ -72,7 +72,7 @@
 ```
 ## 9spring的认证
 ```
-shiro 和 security
+待完成 shiro 和 security
 ```
 # ms-web监控平台
 ```
@@ -81,7 +81,6 @@ shiro 和 security
 ```
 # ms-api连接数据库
 ```
-1连接mysql
-2连接redis
-3连接mongdb
+1连接mysql    OK
+2连接redis    OK
 ```

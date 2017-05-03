@@ -4,6 +4,7 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
@@ -12,16 +13,22 @@
     <!-- 基于注解的IOC -->
     <context:component-scan base-package="com"></context:component-scan>
     <!-- 默认的注解映射的支持 -->
-    <context:annotation-config />
+    <context:annotation-config/>
     <!-- 启动mvc注解 -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
     <!--
           开始aop注解 让 AspectJ注解起作用
             自动为匹配的类生成代理对象
       -->
     <aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
 
+    <!-- 上传文件的设置 ，maxUploadSize=-1，表示无穷大。uploadTempDir为上传的临时目录 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+          p:defaultEncoding="UTF-8"
+          p:maxUploadSize="5400000"
+    />
+    <!--
+    p:uploadTempDir="/fumai-project/test"
+  -->
 
-
-    
 </beans>

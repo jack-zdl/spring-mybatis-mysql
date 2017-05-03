@@ -10,7 +10,14 @@
         <result property="status" column="status"></result>
         <result property="operateDesc" column="operate_desc"></result>
     </resultMap>
-
+    <select id="list" parameterType="java.util.Map" resultMap="ResultMap">
+        SELECT * FROM tbl_operatelog
+        <where>
+            <if test="type != null">
+                operate_type =#{type}
+            </if>
+        </where>
+    </select>
     <insert id="save" parameterType="com.bsg.api.entity.OperatelogEntity">
         INSERT INTO tbl_operatelog
         (

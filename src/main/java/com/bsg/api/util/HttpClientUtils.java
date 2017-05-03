@@ -6,6 +6,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -37,8 +38,13 @@ public class HttpClientUtils {
         return sendHttpGet(httpGet);
     }
 
-    public static RespJson sendHttpPost(String httpUrl) throws HttpConnectionException, HttpClientException, IOException {
+    public static RespJson sendHttpPost(String httpUrl, String jsonParam) throws HttpConnectionException, HttpClientException, IOException {
         HttpPost httpPost = new HttpPost(httpUrl);
+        if (jsonParam != null) {
+            StringEntity stringEntity = new StringEntity(jsonParam, "UTF-8");
+            stringEntity.setContentType("application/json");
+            httpPost.setEntity(stringEntity);
+        }
         return sendHttpPost(httpPost);
     }
 
@@ -54,10 +60,14 @@ public class HttpClientUtils {
             httpClient = HttpClients.createDefault();
             httpResponse = httpClient.execute(httpPost);
             String respStr = null;
+            HttpEntity httpEntity = httpResponse.getEntity();
             if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                HttpEntity httpEntity = httpResponse.getEntity();
                 respStr = EntityUtils.toString(httpEntity, "utf-8");
             }
+            logger.info("getHttp连接通过" + respStr);
+            // 释放资源
+            EntityUtils.consume(httpEntity);
+            respJson = RespJsonFactory.buildSuccess("getHttp连接通过:" + respStr);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +98,7 @@ public class HttpClientUtils {
                 logger.info("getHttp连接通过" + respStr);
                 // 释放资源
                 EntityUtils.consume(entity);
-                respJson = RespJsonFactory.buildSuccess("getHttp连接通过");
+                respJson = RespJsonFactory.buildSuccess("getHttp连接通过:" + respStr);
             }
         } catch (Exception e) {
             logger.error("getHttp连接失败");

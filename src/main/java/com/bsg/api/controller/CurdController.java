@@ -70,11 +70,12 @@ public class CurdController {
         try {
             param.put("id", bookId);
             respJson = curdBookService.update(request, param);
+            return respJson;
         } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure("更新书籍失败");
-            throw new BookNotFoundException("not found book");
+            throw new BookNotFoundException("No Found Book");
         }
-        return respJson;
+
     }
 
     /**

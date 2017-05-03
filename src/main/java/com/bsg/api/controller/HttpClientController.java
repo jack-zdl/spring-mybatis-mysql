@@ -41,12 +41,13 @@ public class HttpClientController {
      * @param request
      * @param param
      * @return
-     * @description 
+     * @description
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public RespJson postHttpClient(HttpServletRequest request, @RequestBody Map<String, Object> param) {
         RespJson respJson = null;
+
         return respJson;
     }
 }

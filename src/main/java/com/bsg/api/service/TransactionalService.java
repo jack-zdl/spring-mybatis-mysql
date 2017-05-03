@@ -112,6 +112,7 @@ public class TransactionalService extends BaseService {
         HttpSession session = request.getSession();
         UserEntity userEntity = (UserEntity) session.getAttribute(SysConstants.SESSION_USER);
         try {
+            saveOperateLog(DictTypeConstants.PAGE_TYPE, DictConstants.BUTTON_UPDATE, userEntity.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
             String bookId = (String) param.get("id");
             BookEntity bookEntity = bookDao.get(bookId);//一次查询
             bookEntity.setNumber(String.valueOf(Integer.parseInt(bookEntity.getNumber()) - Integer.parseInt((String) param.get("number"))));
@@ -123,7 +124,6 @@ public class TransactionalService extends BaseService {
             } else {
                 respJson = RespJsonFactory.buildSuccess("更新书籍成功");
             }
-
             Map<String, Object> userMap = new HashMap<String, Object>();
             userMap.put("username", userEntity.getUsername());
             userMap.put("password", userEntity.getPassword());
@@ -141,7 +141,7 @@ public class TransactionalService extends BaseService {
             } else {
                 respJson = RespJsonFactory.buildSuccess("更新用户金额成功");
             }
-
+            updateOperateLog(DictTypeConstants.PAGE_TYPE, DictConstants.BUTTON_UPDATE, userEntity.getUsername(), SysConstants.ACTION_SUCCESS, IPUtil.getIp(request));
         } catch (Exception e) {
             logger.error("书籍购买失败" + e);
             throw new APIException("书籍购买失败" + e.getMessage());
@@ -156,6 +156,11 @@ public class TransactionalService extends BaseService {
      * @return RespJson
      * @throws APIException
      * @description 1修改书籍数量，数量不足rollback, 2 修改用户金额不足rollback
+     * @description 多个复杂tx 1购买书籍，改变书籍数量，改变用户金额 1 9个查询 2 insert 2 update 2remove
+     * @description 9次查询 在每个表中查询一次  三个join查询 查询书籍表的创造者用户id 已经用户的角色 关联书籍表，用户表，角色表，授权表
+     * @description 3insert 插入log日志 插入字典类型将书籍名称写入字典类型中 插入字典表
+     * @description 2update 更新书籍信息 更新用户信息
+     * @description 2remove 删除字典类型表信息 删除字典表
      * @// TODO: 2017/4/19 1事物处理
      */
     @SuppressWarnings("unchecked")
