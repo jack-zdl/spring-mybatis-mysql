@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper>
-
-    <select id="list" resultType="java.util.HashMap">
+<mapper namespace="com.bsg.api.dao.SelectDao">
+    <!--<resultMap id="ResultMap" type="com.bsg.api.entity.MysqlSelectEntity">-->
+    <!--<result property="variableName" column="Variable_name"></result>-->
+    <!--<result property="value" column="Value"></result>-->
+    <!--</resultMap>-->
+    <select id="list" resultType="java.util.Map">
         show global status where Variable_name in
         ('Com_insert','Com_update','Com_delete','Com_select','open_tables')
     </select>
 
-    <select id="get" parameterType="java.util.Map" resultType="java.util.HashMap">
+    <select id="get" parameterType="java.util.Map" resultType="java.util.Map">
         show global status where Variable_name in
         (
           #{type}
