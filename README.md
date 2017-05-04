@@ -53,13 +53,16 @@ value                String                         可选的限定描述符，�
 ```
 ## 6spring的异步消息
 ```
-1异步发送消息 ActiveMQ 消息队列的形式或主题的形式 异步接受消息 消息驱动POJO的类型 基于消息的RPC 他是定义了API不推荐使用
+1异步发送消息 ActiveMQ 消息队列的形式或主题的形式 异步接受消息 消息驱动POJO的类型 基于消息的RPC
+他是定义了API不推荐使用
 2异步消息机制 AMQP 跨语言 跨平台 2017426必须做完
-    AMQP 在client端以AMQP的形式发送，在server端以AMQP的形式接受。
-    github实例代码 https://github.com/chwshuang/rabbitmq/tree/master/src/main/java/com/aitongyi/rabbitmq/publish
-    AMQP 使用rabbitmq来实现，就像发邮件一样，但是这必须保证消息生产者有一个rabbitmq（需要下载安装的）机制，消息接受者也有rabbitmq机制来接受。
-    完成了队列的消息机制。
-    未完成主题订阅的消息机制
+AMQP 在client端以AMQP的形式发送，在server端以AMQP的形式接受。
+github实例代码
+https://github.com/chwshuang/rabbitmq/tree/master/src/main/java/com/aitongyi/rabbitmq/publish
+AMQP 使用rabbitmq来实现，就像发邮件一样，但是这必须保证消息生产者有一个rabbitmq（需要下载安装的）机制，
+消息接受者也有rabbitmq机制来接受。
+完成了队列的消息机制。
+未完成主题订阅的消息机制
 ```
 ## 7spring文件下载
 ```
@@ -88,7 +91,8 @@ select 接口
 ```
 # ms-web监控平台
 ```
-1当压力测试时，页面需要去监控展示出多少个查询业务请求，多少个查询数据库请求。检测软件业务的状态（多少请求多少查询），检测数据库的状态（多少数据库sql语句查询）
+1当压力测试时，页面需要去监控展示出多少个查询业务请求，
+多少个查询数据库请求。检测软件业务的状态（多少请求多少查询），检测数据库的状态（多少数据库sql语句查询）
 2当压力测试时，每次查询的耗时时间。
 ```
 # http自动测试工具
