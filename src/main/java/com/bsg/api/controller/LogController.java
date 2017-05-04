@@ -21,6 +21,18 @@ public class LogController {
     @Resource
     private LogService logService;
 
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public RespJson listAll(HttpServletRequest request, String type) throws APIException {
+        RespJson respJson = null;
+        try {
+            respJson = logService.list(request, type);
+        } catch (Exception e) {
+            throw new APIException();
+        }
+        return respJson;
+    }
+
     //关键字查询
     @RequestMapping(value = "/{type}", method = RequestMethod.GET)
     @ResponseBody

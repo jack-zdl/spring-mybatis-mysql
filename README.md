@@ -84,3 +84,10 @@
 1连接mysql    OK
 2连接redis    OK
 ```
+# redis的基础操作-增删改查
+```
+save 接口
+delete 接口
+update 接口
+select 接口
+```

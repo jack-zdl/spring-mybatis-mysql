@@ -1,6 +1,8 @@
 package com.bsg.api.controller;
 
+import com.bsg.api.exception.APIException;
 import com.bsg.api.service.LogService;
+import com.bsg.api.service.SelectService;
 import com.bsg.api.util.RespJson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,20 @@ import javax.servlet.http.HttpServletRequest;
 public class SelectController {
     @Resource
     private LogService logService;
+    @Resource
+    private SelectService selectService;
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public RespJson listAll(HttpServletRequest request, String type) throws APIException {
+        RespJson respJson = null;
+        try {
+            respJson = logService.list(request, type);
+        } catch (Exception e) {
+            throw new APIException();
+        }
+        return respJson;
+    }
 
     /**
      * @param request
@@ -27,11 +43,30 @@ public class SelectController {
      */
     @RequestMapping(value = "/{type}", method = RequestMethod.GET)
     @ResponseBody
-    public RespJson list(HttpServletRequest request, @PathVariable String type) {
+    public RespJson list(HttpServletRequest request, @PathVariable String type) throws APIException {
         RespJson respJson = null;
         try {
             respJson = logService.list(request, type);
         } catch (Exception e) {
+            throw new APIException();
+        }
+        return respJson;
+    }
+
+    /**
+     * @param request
+     * @param type
+     * @return
+     * @description 对数据库进行全部查询
+     */
+    @RequestMapping(value = "mysql", method = RequestMethod.GET)
+    @ResponseBody
+    public RespJson mysqlSelect(HttpServletRequest request) throws APIException {
+        RespJson respJson = null;
+        try {
+            respJson = selectService.selectMysql();
+        } catch (Exception e) {
+            throw new APIException();
         }
         return respJson;
     }
@@ -44,11 +79,12 @@ public class SelectController {
      */
     @RequestMapping(value = "mysql/{type}", method = RequestMethod.GET)
     @ResponseBody
-    public RespJson mysqlSelect(HttpServletRequest request, @PathVariable String type) {
+    public RespJson mysqlSelect(HttpServletRequest request, @PathVariable String type) throws APIException {
         RespJson respJson = null;
         try {
-
+            respJson = selectService.selectMysql(request, type);
         } catch (Exception e) {
+            throw new APIException();
         }
         return respJson;
     }

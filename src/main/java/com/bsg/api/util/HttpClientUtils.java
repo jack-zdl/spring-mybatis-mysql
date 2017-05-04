@@ -3,9 +3,8 @@ package com.bsg.api.util;
 import com.bsg.api.exception.HttpClientException;
 import com.bsg.api.exception.HttpConnectionException;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -28,6 +27,12 @@ public class HttpClientUtils {
     public static final String METHOD_PUT = "put";
     public static final String METHOD_DELETE = "delete";
 
+    private static RequestConfig requestConfig = RequestConfig.custom()
+            .setSocketTimeout(15000)
+            .setConnectTimeout(15000)
+            .setConnectionRequestTimeout(15000)
+            .build();
+
     /**
      * @return
      * @static
@@ -38,14 +43,30 @@ public class HttpClientUtils {
         return sendHttpGet(httpGet);
     }
 
-    public static RespJson sendHttpPost(String httpUrl, String jsonParam) throws HttpConnectionException, HttpClientException, IOException {
+    public static RespJson sendHttpPost(String httpUrl, String stringParam) throws HttpConnectionException, HttpClientException, IOException {
         HttpPost httpPost = new HttpPost(httpUrl);
-        if (jsonParam != null) {
-            StringEntity stringEntity = new StringEntity(jsonParam, "UTF-8");
-            stringEntity.setContentType("application/json");
-            httpPost.setEntity(stringEntity);
+        try {
+            if (stringParam != null) {
+                StringEntity stringEntity = new StringEntity(stringParam, "UTF-8");
+                stringEntity.setContentType("application/json");
+                httpPost.setEntity(stringEntity);
+                httpPost.setHeader("Accept", "application/json");
+                httpPost.setHeader("Content-Type", "application/json");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return sendHttpPost(httpPost);
+    }
+
+    public static RespJson sendHttpPut(String httpUrl) throws HttpConnectionException, HttpClientException, IOException {
+        HttpPut httpPut = new HttpPut(httpUrl);
+        return sendHttpPut(httpPut);
+    }
+
+    public static RespJson sendHttpDelete(String httpUrl) throws HttpConnectionException, HttpClientException, IOException {
+        HttpDelete httpDelete = new HttpDelete(httpUrl);
+        return sendHttpDelete(httpDelete);
     }
 
     /**
@@ -58,16 +79,22 @@ public class HttpClientUtils {
         CloseableHttpResponse httpResponse = null;
         try {
             httpClient = HttpClients.createDefault();
-            httpResponse = httpClient.execute(httpPost);
+            httpPost.setConfig(requestConfig);//设置请求的一些超时时间连接时间设置
+            httpResponse = httpClient.execute(httpPost);//执行请求，得到返回结果
             String respStr = null;
-            HttpEntity httpEntity = httpResponse.getEntity();
+            HttpEntity httpEntity = httpResponse.getEntity();//得到返回结果的数据
             if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
                 respStr = EntityUtils.toString(httpEntity, "utf-8");
+                logger.info("postHttp连接通过" + respStr);
+                respJson = RespJsonFactory.buildSuccess("postHttp连接通过!", respStr);
+            } else {
+                logger.info("postHttp连接不通过");
+                respJson = RespJsonFactory.buildFailure("postHttp连接不通过!");
             }
-            logger.info("getHttp连接通过" + respStr);
             // 释放资源
             EntityUtils.consume(httpEntity);
-            respJson = RespJsonFactory.buildSuccess("getHttp连接通过:" + respStr);
+            httpResponse.close();
+            httpClient.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,11 +125,69 @@ public class HttpClientUtils {
                 logger.info("getHttp连接通过" + respStr);
                 // 释放资源
                 EntityUtils.consume(entity);
-                respJson = RespJsonFactory.buildSuccess("getHttp连接通过:" + respStr);
+                respJson = RespJsonFactory.buildSuccess("getHttp连接通过!", respStr);
             }
         } catch (Exception e) {
             logger.error("getHttp连接失败");
             e.printStackTrace();
+        }
+        return respJson;
+    }
+
+
+    private static RespJson sendHttpPut(HttpPut httpPut) throws HttpConnectionException, HttpClientException, IOException {
+        RespJson respJson = null;
+        CloseableHttpClient closeableHttpClient = null;
+        CloseableHttpResponse closeableHttpResponse = null;
+        HttpEntity httpEntity = null;
+        String responseContent = null;
+        try {
+            //生成默认的httpClient实例
+            closeableHttpClient = HttpClients.createDefault();
+            closeableHttpResponse = closeableHttpClient.execute(httpPut);
+            httpEntity = closeableHttpResponse.getEntity();
+            if (closeableHttpResponse.getStatusLine().getStatusCode() == SC_OK) {
+                responseContent = EntityUtils.toString(httpEntity, "utf-8");
+                logger.info("putHttp连接通过" + responseContent);
+                respJson = RespJsonFactory.buildSuccess("putHttp连接通过!", responseContent);
+            } else {
+                logger.info("putHttp连接不通过");
+                respJson = RespJsonFactory.buildFailure("putHttp连接通过!");
+            }
+            EntityUtils.consume(httpEntity);
+            closeableHttpResponse.close();
+            closeableHttpResponse.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new HttpClientException();
+        }
+        return respJson;
+    }
+
+    public static RespJson sendHttpDelete(HttpDelete httpDelete) throws HttpConnectionException, HttpClientException, IOException {
+        RespJson respJson = null;
+        CloseableHttpClient closeableHttpClient = null;
+        CloseableHttpResponse closeableHttpResponse = null;
+        HttpEntity httpEntity = null;
+        String responseContent = null;
+        try {
+            closeableHttpClient = HttpClients.createDefault();
+            closeableHttpResponse = closeableHttpClient.execute(httpDelete);
+            httpEntity = closeableHttpResponse.getEntity();
+            if (closeableHttpResponse.getStatusLine().getStatusCode() == SC_OK) {
+                responseContent = EntityUtils.toString(httpEntity, "utf-8");
+                logger.info("deleteHttp连接通过!" + responseContent);
+                respJson = RespJsonFactory.buildSuccess("deleteHttp连接通过!", responseContent);
+            } else {
+                logger.info("deleteHttp连接不通过!");
+                respJson = RespJsonFactory.buildFailure("deleteHttp连接不通过!");
+            }
+            EntityUtils.consume(httpEntity);
+            closeableHttpResponse.close();
+            closeableHttpResponse.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new HttpClientException();
         }
         return respJson;
     }

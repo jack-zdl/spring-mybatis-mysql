@@ -42,25 +42,19 @@ public class LoginService {
     @Transactional(rollbackFor = APIException.class)
     public RespJson login(HttpServletRequest request, Map<String, Object> param) throws APIException {
         RespJson respJson = null;
+        UserEntity user = userDao.getUser(param);
+        Date date = DateUtil.getCurrentDateTime();
         try {
-            // String password = (String) param.get("password");
-            logger.error("用户名密码错误");
-            logger.info("用户名密码info");
-            System.out.println("测试");
-            logger.warn("用户名密码警告");
-            UserEntity user = userDao.getUser(param);
             if (user == null) {
                 logger.error("用户名密码错误");
                 return RespJsonFactory.buildWarning("用户名密码错误");
             } else {
                 if (!user.getValidate()) {
-                    logger.error("书的库存不足。");
                     return RespJsonFactory.buildWarning("用户无权限登录");
                 } else {
                     HttpSession session = request.getSession();
                     session.setAttribute(SysConstants.SESSION_USER, user);
 
-                    Date date = DateUtil.getCurrentDateTime();
                     OperatelogEntity operatelog = new OperatelogEntity();
                     System.out.println(PrimaryKeyUtils.uniqueId());
                     operatelog.setId(PrimaryKeyUtils.uniqueId());
@@ -75,12 +69,18 @@ public class LoginService {
                 }
             }
         } catch (Exception e) {
+            OperatelogEntity operatelog = new OperatelogEntity();
+            System.out.println(PrimaryKeyUtils.uniqueId());
+            operatelog.setId(PrimaryKeyUtils.uniqueId());
+            operatelog.setOperatePage(DictTypeConstants.PAGE_LOGIN);
+            operatelog.setOperateType(DictConstants.BUTTON_LOGIN);
+            operatelog.setOperator(user.getUsername());
+            operatelog.setOperateTime(date);
+            operatelog.setStatus(SysConstants.ACTION_FAIL);
+            operatelog.setOperateDesc(IPUtil.getIp(request));
+            operatelogDao.save(operatelog);
             logger.error("账号密码验证异常", e);
             throw new APIException("账号密码验证异常:" + e.getMessage());
         }
     }
-
-    ;
-
-
 }

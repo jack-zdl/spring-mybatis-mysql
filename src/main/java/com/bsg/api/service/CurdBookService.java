@@ -59,7 +59,7 @@ public class CurdBookService extends BaseService {
             respJson = RespJsonFactory.buildSuccess(bookDtoList);
             logger.info("书籍查询成功");
         } catch (Exception e) {
-            saveOperateLog(DictTypeConstants.PAGE_SELECT, DictConstants.BUTTON_SELECT, user.getUsername(), SysConstants.ACTION_SUCCESS, IPUtil.getIp(request));
+            saveOperateLog(DictTypeConstants.PAGE_SELECT, DictConstants.BUTTON_SELECT, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
             logger.error("书籍查询异常");
             e.printStackTrace();
             throw new APIException("书籍查询异常");
@@ -136,7 +136,6 @@ public class CurdBookService extends BaseService {
                 logger.info("更新书籍成功");
             } else {
                 saveOperateLog(DictTypeConstants.PAGE_SELECT, DictConstants.BUTTON_UPDATE, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-
                 throw new APIException("更新的书籍不存在");
             }
         } catch (Exception e) {

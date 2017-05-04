@@ -1,5 +1,6 @@
 package com.bsg.api.controller;
 
+import com.bsg.api.exception.APIException;
 import com.bsg.api.service.HttpClientService;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
@@ -45,9 +46,37 @@ public class HttpClientController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public RespJson postHttpClient(HttpServletRequest request, @RequestBody Map<String, Object> param) {
+    public RespJson postHttpClient(HttpServletRequest request, @RequestBody Map<String, Object> param) throws APIException {
         RespJson respJson = null;
+        try {
+            respJson = httpClientService.getHttpClientByPost(request, param);
+        } catch (Exception e) {
+            throw new APIException();
+        }
+        return respJson;
+    }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public RespJson putHttpClient(HttpServletRequest request, @PathVariable String id) throws APIException {
+        RespJson respJson = null;
+        try {
+            respJson = httpClientService.getHttpClientByPut(request, id);
+        } catch (Exception e) {
+            throw new APIException();
+        }
+        return respJson;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public RespJson deleteHttpClient(HttpServletRequest request, @PathVariable String id) throws APIException {
+        RespJson respJson = null;
+        try {
+            respJson = httpClientService.getHttpClientByDelete(request, id);
+        } catch (Exception e) {
+            throw new APIException();
+        }
         return respJson;
     }
 }

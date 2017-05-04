@@ -7,4 +7,5 @@ public class DictTypeConstants {
     public static final String PAGE_TYPE = "Transactional-page";
     public static final String PAGE_LOGIN = "login-page";
     public static final String PAGE_SELECT = "select-page";
+    public static final String PAGE_HTTP = "http-page";
 }
