@@ -3,6 +3,8 @@ package com.bsg.api.service;
 import com.bsg.api.exception.APIException;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
+import org.apache.log4j.Logger;
+import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,7 @@ import java.util.Map;
  */
 @Service()
 public class RedisTemplateService extends BaseService {
-
-    //    ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:config/spring-redis.xml");
-//    RedisTemplate redisTemplate = (RedisTemplate) ctx.getBean("redisTemplate");
-//    StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) ctx.getBean("stringRedisTemplate");
+    private static Logger logger = Logger.getLogger(RedisTemplateService.class);
     @Resource
     private RedisTemplate redisTemplate;
 
@@ -30,9 +29,22 @@ public class RedisTemplateService extends BaseService {
     @Override
     public RespJson get(HttpServletRequest request, Map<String, Object> param) throws APIException {
         RespJson respJson = null;
+        Object object = null;
         try {
-
+            DataType type = redisTemplate.type(param.get("key"));
+            if (DataType.NONE == type) {
+                logger.info("key不存在!");
+                return null;
+            } else if (DataType.STRING == type) {
+                object = redisTemplate.opsForValue().get(param.get("key"));
+            } else if (DataType.LIST == type) {
+                object = redisTemplate.opsForList().range(param.get("key"), 0, -1);
+            } else if (DataType.HASH == type) {
+                object = redisTemplate.opsForHash().entries(param.get("key"));
+            }
+            respJson = RespJsonFactory.buildSuccess(object);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new APIException();
         }
         return respJson;
@@ -68,8 +80,10 @@ public class RedisTemplateService extends BaseService {
     public RespJson remove(HttpServletRequest request, String id) throws APIException {
         RespJson respJson = null;
         try {
-
+            redisTemplate.delete(id);
+            respJson = RespJsonFactory.buildSuccess("删除成功！");
         } catch (Exception e) {
+            e.printStackTrace();
             throw new APIException();
         }
         return respJson;
