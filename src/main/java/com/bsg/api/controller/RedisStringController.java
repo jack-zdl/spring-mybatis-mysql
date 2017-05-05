@@ -1,6 +1,7 @@
 package com.bsg.api.controller;
 
 import com.bsg.api.exception.APIException;
+import com.bsg.api.exception.RedisConnectException;
 import com.bsg.api.service.StringRedisTemplateService;
 import com.bsg.api.util.RespJson;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class RedisStringController {
         try {
             respJson = stringRedisTemplateService.get(request, param);
         } catch (Exception e) {
-            throw new APIException();
+            throw new RedisConnectException();
         }
         return respJson;
     }
@@ -38,7 +39,7 @@ public class RedisStringController {
         try {
             respJson = stringRedisTemplateService.save(request, param);
         } catch (Exception e) {
-            throw new APIException();
+            throw new RedisConnectException();
         }
         return respJson;
     }
@@ -50,7 +51,7 @@ public class RedisStringController {
         try {
             respJson = stringRedisTemplateService.update(request, param);
         } catch (Exception e) {
-            throw new APIException();
+            throw new RedisConnectException();
         }
         return respJson;
     }

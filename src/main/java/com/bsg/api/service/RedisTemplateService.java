@@ -1,6 +1,7 @@
 package com.bsg.api.service;
 
 import com.bsg.api.exception.APIException;
+import com.bsg.api.exception.RedisConnectException;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
 import org.apache.log4j.Logger;
@@ -34,7 +35,8 @@ public class RedisTemplateService extends BaseService {
             DataType type = redisTemplate.type(param.get("key"));
             if (DataType.NONE == type) {
                 logger.info("key不存在!");
-                return null;
+                respJson = RespJsonFactory.buildFailure("没有查询到！");
+                return respJson;
             } else if (DataType.STRING == type) {
                 object = redisTemplate.opsForValue().get(param.get("key"));
             } else if (DataType.LIST == type) {
@@ -45,7 +47,7 @@ public class RedisTemplateService extends BaseService {
             respJson = RespJsonFactory.buildSuccess(object);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new APIException();
+            throw new RedisConnectException();
         }
         return respJson;
     }
@@ -60,7 +62,7 @@ public class RedisTemplateService extends BaseService {
             respJson = RespJsonFactory.buildSuccess("redis数据存储成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            throw new APIException();
+            throw new RedisConnectException();
         }
         return respJson;
     }
@@ -84,7 +86,7 @@ public class RedisTemplateService extends BaseService {
             respJson = RespJsonFactory.buildSuccess("删除成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            throw new APIException();
+            throw new RedisConnectException();
         }
         return respJson;
     }
