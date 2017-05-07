@@ -5,6 +5,7 @@ import com.bsg.api.entity.OperatelogEntity;
 import com.bsg.api.exception.APIException;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import java.util.Map;
  */
 @Service
 public class LogService {
+    private Logger logger = Logger.getLogger(LogService.class);
     @Resource
     private OperatelogDao operatelogDao;
 
@@ -26,6 +28,7 @@ public class LogService {
         RespJson respJson = null;
         List<OperatelogEntity> operatelogEntityList = new ArrayList<OperatelogEntity>();
         Map<String, Object> typeMap = new HashMap<String, Object>();
+        logger.error("进入日志查询");
         try {
             typeMap.put("type", type);
             operatelogEntityList = operatelogDao.list(typeMap);

@@ -42,6 +42,7 @@ public class LoginService {
     @Transactional(rollbackFor = APIException.class)
     public RespJson login(HttpServletRequest request, Map<String, Object> param) throws APIException {
         RespJson respJson = null;
+        logger.error("user访问进来：" + param);
         UserEntity user = userDao.getUser(param);
         Date date = DateUtil.getCurrentDateTime();
         try {

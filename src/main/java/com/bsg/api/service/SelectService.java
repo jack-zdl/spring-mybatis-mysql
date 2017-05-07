@@ -4,6 +4,7 @@ import com.bsg.api.dao.SelectDao;
 import com.bsg.api.exception.APIException;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +21,7 @@ import java.util.Map;
  */
 @Service()
 public class SelectService {
+    private Logger logger = Logger.getLogger(SelectService.class);
     @Resource
     private SelectDao selectDao;
 
@@ -31,6 +33,7 @@ public class SelectService {
     public RespJson selectMysql() throws APIException {
         RespJson respJson = null;
         List<Object> list = new ArrayList<Object>();
+        logger.error("进入select");
         try {
             list = selectDao.list();
             respJson = RespJsonFactory.buildSuccess(list);
@@ -49,6 +52,7 @@ public class SelectService {
         RespJson respJson = null;
         List<Object> list = new ArrayList<Object>();
         Map<String, Object> map = new HashMap<String, Object>();
+        logger.error("进入select");
         try {
             map.put("type", type);
             list = selectDao.get(map);

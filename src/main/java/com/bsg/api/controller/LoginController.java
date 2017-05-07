@@ -20,46 +20,48 @@ public class LoginController {
 
     @Resource
     private LoginService loginService;
+
     /**
-     * @description 登录控制层
      * @param request
      * @param param
      * @return
+     * @description 登录控制层
      */
-    @RequestMapping(value="login",method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public RespJson login(HttpServletRequest request, @RequestBody Map<String, Object>  param){
+    public RespJson login(HttpServletRequest request, @RequestBody Map<String, Object> param) {
         RespJson respJson = null;
-        try{
+        System.out.println("登录进来：");
+        try {
             respJson = loginService.login(request, param);
-        }catch (Exception e){
+        } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure(e.getMessage());
         }
         return respJson;
     }
 
     /**
-     * @descriptin 通过get参数的形式来传入参数 /param?key1=value&key2=value2
      * @param request
      * @param param
      * @return
+     * @descriptin 通过get参数的形式来传入参数 /param?key1=value&key2=value2
      */
-    @RequestMapping(value="/param",method =RequestMethod.GET )
+    @RequestMapping(value = "/param", method = RequestMethod.GET)
     @ResponseBody
-    public RespJson loginByGet(HttpServletRequest request,@RequestBody Map<String,Object> param){
+    public RespJson loginByGet(HttpServletRequest request, @RequestBody Map<String, Object> param) {
         RespJson respJson = null;
         return respJson;
     }
 
     /**
-     * @description
      * @param request
      * @param param
      * @return
+     * @description
      */
-    @RequestMapping(value="/{param}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{param}", method = RequestMethod.GET)
     @ResponseBody
-    public RespJson loginByUrl(HttpServletRequest request,@PathVariable String param){
+    public RespJson loginByUrl(HttpServletRequest request, @PathVariable String param) {
         RespJson respJson = null;
         return respJson;
     }
