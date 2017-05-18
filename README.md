@@ -81,10 +81,17 @@ redis作为内存数据库，作为缓存数据库
 待完成
 shiro 和 security
 ```
+# spring将传递json参数封装为对象和进行校验
+```
+```
+# spring使用拦截器进行登录验证和使用过滤器进行乱码过滤
+```
+```
 # ms-api连接数据库
 ```
-1连接mysql    OK
-2连接redis    OK
+1连接mysql    OK   使用JNDI的连接方式
+2连接redis    OK   使用jedis连接方法，采用sentinel（哨兵）的方式连接可以搭建一个redis集群
+数据库的长连接和短连接区别（连接池的情况下）
 ```
 # redis的基础操作-增删改查
 ```
