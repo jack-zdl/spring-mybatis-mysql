@@ -5,17 +5,19 @@ import com.bsg.api.exception.BookNotFoundException;
 import com.bsg.api.service.CurdBookService;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
-import org.springframework.stereotype.Controller;
+import com.bsg.api.vo.BookPostVo;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Map;
 
 /**
  * Created by zhang on 2017/4/21. 测试简单的数据库curd 对于书籍的简单的增删改查
  */
-@Controller
+@RestController
 @RequestMapping("/v1.0/crud")
 public class CurdController {
     @Resource
@@ -26,10 +28,16 @@ public class CurdController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public RespJson save(HttpServletRequest request, @RequestBody Map<String, Object> param) throws APIException {
+    public RespJson save(HttpServletRequest request, @Valid @RequestBody BookPostVo bookPostVo, Errors errors) throws APIException { // Map<String, Object> param
+
+        if (errors.hasErrors()) {
+            System.out.println("输入信息错误");
+        }
         RespJson respJson = null;
+        System.out.println("bookPostVo" + bookPostVo);
+        System.out.println("bookPostVo验证=" + bookPostVo.toString());
         try {
-            respJson = curdBookService.save(request, param);
+            //respJson = curdBookService.save(request, param);
         } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure("书籍新增异常");
             throw new APIException("书籍新增异常");

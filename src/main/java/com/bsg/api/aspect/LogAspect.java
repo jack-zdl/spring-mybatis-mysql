@@ -2,7 +2,6 @@ package com.bsg.api.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,7 @@ public class LogAspect {
     public void pointCut() {
     }
 
-    @Before("pointCut()")
+    //@Before("pointCut()")
     public void beforeMethod(JoinPoint joinPoint) {
         Object[] objects = joinPoint.getArgs();
 

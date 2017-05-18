@@ -44,6 +44,7 @@ value                String                         可选的限定描述符，�
 ```
    1将各种异常用spring异常处理修饰，当发生这个异常时，返回对应的状态码，就相关原因。
    2将异常放在AOP中使用，就不用每个异常手写一次
+   3可以将所有的结果都映射为异常，包括204成功无返回结果，映射为异常来返回状态码
 ```
 ## 5http接口开发
 ```
@@ -64,8 +65,21 @@ AMQP 使用rabbitmq来实现，就像发邮件一样，但是这必须保证消�
 完成了队列的消息机制。
 未完成主题订阅的消息机制
 ```
+## rabbitmq消息
+```
+```
+## spring的consul的服务发现
+```
+1 服务的注册和发现
+2 key vaule形式 配置文件处理
+3 健康检查
+4 多数据中心
+```
 ## 7spring文件下载
 ```
+第一基于前后端一起的
+第二前后端分离，怎么办？
+以springmvc restful风格的文件上传，下载
 上传文件 第一种是基于流的方式上传文件 CommonsMultipartFile
 上传文件 第二种是基于spring的方式 推荐使用spring的方式速度快
 ```
@@ -83,9 +97,29 @@ shiro 和 security
 ```
 # spring将传递json参数封装为对象和进行校验
 ```
+1 使用jar
+ <!--校验数据
+            必须依赖正确的jar，之前就是错误的jar
+        -->
+        <!-- https://mvnrepository.com/artifact/javax.validation/com.springsource.javax.validation -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.0.1.Final</version>
+        </dependency>
+        <!-- 校验数据jar结束-->
+ 2创建VO类,添加相关校验注解
+ 3在controller中添加@valid @RequestBody 就可以校验了在clud的post方法中我是用了这个方法
 ```
 # spring使用拦截器进行登录验证和使用过滤器进行乱码过滤
 ```
+1在springmvc配置文件中设置登录前验证拦截器：作用拦截没有登录的用户
+2必须在web.xml中设置过滤器，根据你设置多个过滤器的顺序来设置过滤。
 ```
 # ms-api连接数据库
 ```
@@ -123,8 +157,6 @@ ab=apache bench测试自动化测试
 5程序执行慢分析
 
 问题：java的并发测试 就是关于多线程，高并发
-
-
 ```
 # spring的线程池
 ```
@@ -133,7 +165,10 @@ c3p0线程池
 # mybatis的SQL注入工具
 ```
 测试mybatis的sql有无注入风险。
-MYSQL的慢查询
+MYSQL的慢查询   ok 在文件中设置一下
+              my.ini    log_slow_queries = showlog
+                        #slow_query_log = ON
+                        long_query_time = 1
 多个MYSQL数据库软件做读写分离
 ```
 # JVM的性能测试及其调优
@@ -143,5 +178,36 @@ MYSQL的慢查询
 2GC机制
 3工具检测
 4调优方法
+```
+# 基础原理和知识
+```
+1 CAP定理
+    一致性(Consitency)，可用性(Availability)和分区容忍性(Partition Tolerance)中三选二。
+    CA无法同时选择
+    一般看你的业务情况，数据不重要你可以选AP,数据重要你可以选择CP.
+2 jdk8的新特性及其使用
+java语言新特性
+     Lambda表达式和函数式接口(Groovy、Scala类似)
+     接口的修改 默认方法和静态方法
+     可以使用重复注解，在同一个方法上面可以有重复注解
+     扩展的注解的应用范围，注解可以使用在任何元素：局部变量，接口类型，超类，接口实现
+java编译器的新特性
+    参数名称
+java官方库
+    增加了date和time类
+    增加optional,来解决空指针异常
+    增加Streams （java.util.stream）将生成环境的函数式编程引入了Java库中
+    提供  Nashorn JavaScript引擎
+    Base64加密编码
+    并行数组
+    并发性
+java新工具
+    类依赖分析器：jdeps
+3 restful和rpc
+    restful是一种设计风格,提供了设计原则和约束条件，他不是架构,满足这些约束就是restful架构。
+    rpc远程调用,从客户端机器通过参数传递的方式调用另一台机器的一个函数或者一个方法。并得到返回结果。
+    RPC回隐藏底层的通讯细节，（不需要直接处理Socket通讯或Http通讯）
+    RPC 是一个请求响应模型。客户端发起请求，服务器返回响应（类似于Http的工作方式）
+    RPC 在使用形式上像调用本地函数（或方法）一样去调用远程的函数（或方法）。
 ```
 
