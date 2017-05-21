@@ -1,4 +1,4 @@
-package com.api.util;
+package com.bsg.api.util;
 
 import org.springframework.util.DigestUtils;
 

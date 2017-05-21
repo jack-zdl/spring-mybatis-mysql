@@ -1,60 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
        default-lazy-init="true">
 
     <description>Shiro安全配置</description>
-
-    <bean id="shiroDbRealm" class="com.anji.common.security.shiro.ShiroDbRealm">
-        <property name="accountService" ref="accountService"/>
-        <property name="defaultPermissionString" value="security:change-password,security:index" />
-    </bean>
-
+    <!-- http://blog.csdn.net/u013142781/article/details/50629708-->
+    <!--shiro默认的配置 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="shiroDbRealm" />
-        <property name="cacheManager" ref="shiroEhcacheManager" />
+        <property name="cacheManager" ref="cacheManager" />
     </bean>
-
-    <bean id="chainDefinitionSectionMetaSource" class="com.anji.common.security.shiro.ChainDefinitionSectionMetaSource">
-        <property name="filterChainDefinitions">
-            <value>
-                /login = captchaAuthc
-                /logout = logout
-                /index = perms[security:index]
-                /resource/** = anon
-                /changePassword = perms[security:change-password]
-                /system/user/changePassword = perms[security:change-password]
-                /api/** = anon
-                /services/** = anon
-                /get-captcha = anon
-                /** = authc
-            </value>
-        </property>
+    <!-- 自定义的shiro-->
+    <bean id="shiroDbRealm" class="com.bsg.api.interceptor.ShiroRealmInterceptor">
+        <property name="cacheManager" ref="cacheManager" />
     </bean>
 
     <!-- 将shiro与spring集合 -->
     <bean id="shiroSecurityFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="filters">
-            <map>
-                <entry key="captchaAuthc" value-ref="captchaAuthenticationFilter" />
-            </map>
-        </property>
         <property name="securityManager" ref="securityManager" />
-        <property name="loginUrl" value="/login" />
-        <property name="successUrl" value="/index" />
-        <property name="unauthorizedUrl" value="/unauthorized" />
-        <property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource" />
+        <!--<property name="loginUrl" value="/login" />-->
+        <!--<property name="successUrl" value="/index" />-->
+        <!--<property name="unauthorizedUrl" value="/unauthorized" />-->
+        <property name="filterChainDefinitions" >
+            <value>
+                /** = authc
+            </value>
+        </property>
     </bean>
+    <!-- 用户授权信息Cache -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
 
-    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml"/>
-    </bean>
-
+    <!--<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+        <!--<property name="cacheManagerConfigFile" value="classpath:config/spring-ehcache.xml"/>-->
+    <!--</bean>-->
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-
+    <!-- AOP式方法级权限检查 -->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
         <property name="proxyTargetClass" value="true" />
     </bean>
+
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>

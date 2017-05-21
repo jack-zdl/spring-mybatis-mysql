@@ -100,8 +100,9 @@ redis作为内存数据库，作为缓存数据库
 ```
 ## 9spring的认证
 ```
-待完成
 shiro 和 security
+shiro的管理
+
 ```
 # spring将传递json参数封装为对象和进行校验
 ```

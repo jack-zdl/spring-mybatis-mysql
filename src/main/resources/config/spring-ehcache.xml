@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ehcache>
     <!-- 指定一个文件目录，当EhCache把数据写到硬盘上时，将把数据写到这个文件目录下 -->
-    <!--<diskStore path="c:\\upm\\cache"/>指定在磁盘上-->
-    <diskStore path="java.io.tmpdir/ehcache"/>
+    <diskStore path="c:\\upm\\cache"/>
+    <!--<diskStore path="java.io.tmpdir/ehcache"/>-->
     <!--
     缓存配置
        name:缓存名称。

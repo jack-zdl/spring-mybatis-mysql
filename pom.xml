@@ -30,11 +30,12 @@
         <!-- 处理json的工具类-->
         <jackson.version>2.7.4</jackson.version>
         <fastjson.version>1.2.4</fastjson.version>
-
+        <shiro.version>1.2.3</shiro.version>
         <httpclient.version>4.5.2</httpclient.version>
         <junit.version>4.10</junit.version>
         <commonsHttpclient.version>3.1</commonsHttpclient.version>
         <webVersion>3.0</webVersion>
+        <ehcache.version>2.10.3</ehcache.version>
         <!-- environment setting -->
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -218,6 +219,26 @@
             <version>5.0.1.Final</version>
         </dependency>
         <!-- 校验数据jar结束-->
+        <!-- ehcache 相关依赖 -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+        <!-- SECURITY begin
+            shiro-spring依赖于shiro-core，shiro-web
+        -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>junit</groupId>
