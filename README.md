@@ -85,10 +85,18 @@ AMQP 使用rabbitmq来实现，就像发邮件一样，但是这必须保证消�
 ```
 ## 8spring的缓存
 ```
-待完成
-mybatis的缓存一级缓存和二级缓存
-spring-ehcache的缓存管理
+相关网址：http://www.cnblogs.com/jingmoxukong/p/5975994.html
+mybatis的缓存一级缓存和二级缓存 他是对于查询结果的缓存，是执行sql结果的缓存，再次执行的时候会缓存中获得
+spring-ehcache的缓存管理   可以对某个方法结果进行缓存，执行该方法时会直接返回之前的结果
+配置spring-ehcache.xml
+在applicationContext.xml中启动cache注解，
+在方法中去使用
+@Cacheable("definitionCache") --对结果进行缓存
+	public List<DefinitionEntity> listFromCache() {
+		return definitionDao.list(null);
+}
 redis作为内存数据库，作为缓存数据库
+“因为redis数据库是将kv键值对存在内存中，只要主机不关机就会数据就会存在，他还会按照某些规则去自行删除”
 ```
 ## 9spring的认证
 ```

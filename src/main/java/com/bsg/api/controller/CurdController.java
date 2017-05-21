@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -27,7 +28,7 @@ public class CurdController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public RespJson save(HttpServletRequest request,  @RequestBody BookPostVo bookPostVo, Errors errors) throws APIException { // Map<String, Object> param
+    public RespJson save(HttpServletRequest request, @Valid @RequestBody BookPostVo bookPostVo, Errors errors) throws APIException { // Map<String, Object> param
 
         if (errors.hasErrors()) {
             System.out.println("输入信息错误");
