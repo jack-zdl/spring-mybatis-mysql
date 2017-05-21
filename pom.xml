@@ -203,7 +203,21 @@
             <artifactId>spring-data-redis</artifactId>
             <version>1.6.2.RELEASE</version>
         </dependency>
-
+        <!--校验数据
+           必须依赖正确的jar，之前就是错误的jar
+       -->
+        <!-- https://mvnrepository.com/artifact/javax.validation/com.springsource.javax.validation -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.0.1.Final</version>
+        </dependency>
+        <!-- 校验数据jar结束-->
 
         <dependency>
             <groupId>junit</groupId>
