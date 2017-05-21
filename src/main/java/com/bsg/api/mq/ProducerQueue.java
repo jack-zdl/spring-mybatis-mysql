@@ -4,9 +4,9 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
+
 /**
  * Created by zhang on 2017/4/26. mq的生产者
- *
  * @description 消息由生产者发生，发送到MQ的exchange上，
  * @description exchange根据配置的路由方式发到相应的Queue上，Queue又将消息发送给consumer，
  * @description 消息从queue到consumer有push和pull两种方式。 消息队列的使用过程大概如下： 客户端连接到消息队列服务器，打开一个channel。 客户端声明一个exchange，并设置相关属性。
@@ -18,7 +18,7 @@ import com.rabbitmq.client.ConnectionFactory;
 /**
  * @description 基于消息的队列模式
  */
-public class Producer {
+public class ProducerQueue {
     private final static String QUEUE_NAME = "hello";
 
     // AMQP的连接其实是对Socket做的封装, 注意以下AMQP协议的版本号，不同版本的协议用法可能不同。

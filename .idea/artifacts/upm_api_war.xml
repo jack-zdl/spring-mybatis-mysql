@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="upm-api:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="upm-api.war">
+      <element id="artifact" artifact-name="upm-api:war exploded" />
+    </root>
+  </artifact>
+</component>

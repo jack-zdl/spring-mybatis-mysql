@@ -2,18 +2,14 @@ package com.bsg.api.vo;
 
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * Created by zhang on 2017/5/18.
  */
 public class BookPostVo {
     @NotNull
-    @Size(min = 1, max = 2)
     private String number;
-    
     @NotNull
-    @Size(min = 1, max = 2)
     private String price;
 
     public String getNumber() {
