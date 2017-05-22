@@ -102,7 +102,8 @@ redis作为内存数据库，作为缓存数据库
 ```
 shiro 和 security
 shiro的管理
-
+    设置spring-shiro管理，加入web.xml中的配置，就可以进行实时检查
+    pox.xml添加jar
 ```
 # spring将传递json参数封装为对象和进行校验
 ```
@@ -169,7 +170,29 @@ ab=apache bench测试自动化测试
 ```
 # spring的线程池
 ```
-c3p0线程池
+1 配置线程池
+ <bean id="threadPool" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!-- 核心线程数 -->
+        <property name="corePoolSize" value="3"/>
+        <!-- 最大线程数 -->
+        <property name="maxPoolSize" value="10"/>
+        <!-- 队列最大长度 >=mainExecutor.maxSize -->
+        <property name="queueCapacity" value="25"/>
+        <!-- 线程池维护线程所允许的空闲时间 -->
+        <property name="keepAliveSeconds" value="300"/>
+        <!-- 线程池对拒绝任务(无线程可用)的处理策略 ThreadPoolExecutor.CallerRunsPolicy策略 ,调用者的线程会执行该任务,如果执行器已关闭,则丢弃. -->
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
+        </property>
+    </bean>
+2使用它
+    @Resource
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+     threadPoolTaskExecutor.execute(new Runnable(){
+                public void run(){
+                //you code
+                }
+            });
 ```
 # mybatis的SQL注入工具
 ```
@@ -218,5 +241,9 @@ java新工具
     RPC回隐藏底层的通讯细节，（不需要直接处理Socket通讯或Http通讯）
     RPC 是一个请求响应模型。客户端发起请求，服务器返回响应（类似于Http的工作方式）
     RPC 在使用形式上像调用本地函数（或方法）一样去调用远程的函数（或方法）。
+4 spring使用RMI和Hessian,Burlap,HTTP invoker
+    RMI发布，访问远程服务，有时不能穿过防火墙,必须在java环境中
+    Hession是基于二进制有带宽优势，Burlap是XML,可读性高，非java环境
+    HttP invoker
 ```
 

@@ -22,14 +22,23 @@ public class FileController {
      */
 
 
-    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    @RequestMapping(value = "/upload",produces="application/json;charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public RespJson fileUpload(HttpServletRequest request, @RequestParam("fileUpload") CommonsMultipartFile file) {
         RespJson respJson = null;
-        if (!file.isEmpty()) {
-            System.out.println("文件存在");
+        try {
+            if (!file.isEmpty()) {
+                System.out.println("文件存在");
+            }else {
+                System.out.println("文件不存在");
+            }
+            //获取文件名
+            String fileName = file.getOriginalFilename();
+            long currentTime = System.currentTimeMillis();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        System.out.println("文件不存在");
+
         return respJson;
     }
 
