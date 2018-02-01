@@ -247,4 +247,12 @@ java新工具
     Hession是基于二进制有带宽优势，Burlap是XML,可读性高，非java环境
     HttP invoker
 ```
+## spring aop
+```
+
+```
+## spring ioc
+```
+
+```
 
