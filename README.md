@@ -307,4 +307,8 @@ java新工具
 ```
     hession协议
 ```
+## VisualVM使用
+```
+    内部底层 使用JDK内部：JConsole
+```
 
