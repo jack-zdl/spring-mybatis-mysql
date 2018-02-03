@@ -164,10 +164,26 @@ shiro的管理
 ```
 # redis的基础操作-增删改查
 ```
-save 接口= update 接口 相同的kay进行存值时会覆盖原先的value
-delete 接口 ok
-select 接口 ok
-问题：批量操作
+    Redis是单线程的，基于事件驱动的，Redis中有个EventLoop，EventLoop负责对两类事件进行处理：
+        一类是IO事件，这类事件是从底层的多路复用器分离出来的。
+        一类是定时事件，这类事件主要用来事件对某个任务的定时执行。
+    redis对缓存失效二种方法
+        1 客户端去查询时进行的消极处理
+        2 主线程定时主动处理
+    save 接口= update 接口 相同的kay进行存值时会覆盖原先的value
+    1 redis缓存失效机制，EXPIRE命令说起。EXPIRE允许用户为某个key指定超时时间，当超过这个时间之后key对应的值会被清除。
+    2 redis数据库中有二个位置 
+        1 dict位置 存储正常数据
+        2 expires使用来存储关联了过期时间的key的
+    3 redis查询机制  expireIfNeeded
+        1 从expires中查找key的过期时间，如果不存在说明对应key没有设置过期时间，直接返回。
+        2 如果是slave机器，则直接返回，因为Redis为了保证数据一致性且实现简单，将缓存失效的主动权交给Master机器，
+          slave机器没有权限将key失效。
+        3 如果当前是Master机器，且key过期，则master会做两件重要的事情：1）将删除命令写入AOF文件。
+          2）通知Slave当前key失效，可以删除了。
+        4 master从本地的字典中将key对于的值删除。
+    4 主动失效机制
+        服务端定时的去检查失效的缓存，如果失效则进行相应的操作。
 ```
 # ms-web监控平台
 ```
@@ -274,7 +290,7 @@ java新工具
 ```
 ## spring aop
 ```
-
+    链接地址：http://www.jianshu.com/writer#/notebooks/10847232/notes/12195951
 ```
 ## spring ioc
 ```
