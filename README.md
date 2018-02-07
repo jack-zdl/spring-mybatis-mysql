@@ -35,10 +35,30 @@
 ```
 ## 1mysql下mybatis框架的基本sql数据操作语言（DML）语句
 ```
+1 基础sql语句
     insert语句 insert into tbl ()value()
     delete语句 DELETE FROM Person WHERE LastName = 'Wilson'
     update语句 update tbl set a = b where id =id
     select语句 SELECT * FROM Persons WHERE id=id
+2 sql优化
+    使用  UNION 或者  UNION ALL
+        UNION  在结果中截取不同的值 UNION ALL 在结果中可以允许重复的值
+        select org_id from  tsys_user UNION (UNION ALL) select org_id from tsys_organization 
+        联合查询 不可以使用 * 代替查询选项
+    查询中尽量避免使用* ORACLE在解析的过程中, 会将’*’ 依次转换成所有的列名, 这个工作是通过查询数据字典完成的, 
+        这意味着将耗费更多的时间
+    整合简单,无关联的数据库访问
+        如果你有几个简单的数据库查询语句,你可以把它们整合到一个查询中(即使它们之间没有关系)
+    最高效的删除重复记录方法 
+        DELETE FROM EMP E WHERE E.ROWID > (SELECT MIN(X.ROWID)
+    尽量多的使用commit
+        只要有可能,在程序中尽量多使用COMMIT, 这样程序的性能得到提高,需求也会因为COMMIT所释放的资源而减少:
+        COMMIT所释放的资源:
+        a. 回滚段上用于恢复数据的信息.
+        b. 被程序语句获得的锁
+        c. redo log buffer 中的空间
+        d. ORACLE为管理上述3种资源中的内部花费
+    使用表的别名
 ```
 ## 2mysql下的事物管理和mybatis的事物管理
 ```
