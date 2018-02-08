@@ -315,13 +315,91 @@ java新工具
 ## spring ioc
 ```
     IoC理论:借助于“第三方”实现具有依赖关系的对象之间的解耦，
-    1) 软件系统在没有引入IoC容器之前，对象A依赖对象B，那么A对象在实例化或者运行到某一点的时候，自己必须主动创建对象
-      B或者使用已经创建好的对象B，其中不管是创建还是使用已创建的对象B，控制权都在我们自己手上。
-    2）如果软件系统引入了Ioc容器之后，对象A和对象B之间失去了直接联系，所以，当对象A实例化和运行时，如果需要对象B的
-      话，IoC容器会主动创建一个对象B注入到对象A所需要的地方。
-    3）通过前面的对比，可以看到对象A获得依赖对象B的过程，由主动行为变成了被动行为，即把创建对象交给了IoC容器处理，控
-      制权颠倒过来了，这就是控制反转的由来！
-    IOC原理 这也就是所谓“控制反转”的概念所在：控制权由应用代码中转到了外部容器，控制权的转移，即所谓反转。
+        1) 软件系统在没有引入IoC容器之前，对象A依赖对象B，那么A对象在实例化或者运行到某一点的时候，自己必须主动创建对象
+          B或者使用已经创建好的对象B，其中不管是创建还是使用已创建的对象B，控制权都在我们自己手上。
+        2）如果软件系统引入了Ioc容器之后，对象A和对象B之间失去了直接联系，所以，当对象A实例化和运行时，如果需要对象B的
+          话，IoC容器会主动创建一个对象B注入到对象A所需要的地方。
+        3）通过前面的对比，可以看到对象A获得依赖对象B的过程，由主动行为变成了被动行为，即把创建对象交给了IoC容器处理，控
+          制权颠倒过来了，这就是控制反转的由来！
+        IOC原理 这也就是所谓“控制反转”的概念所在：控制权由应用代码中转到了外部容器，控制权的转移，即所谓反转。
+    Bean的生命周期：
+        spring bean的完整生命周期从创建Spring容器开始，知道spring容器销毁bean.
+        bean自身的方法，Bean本身调用的方法和通过配置文件中<bean>的init-method和destroy-method指定的方法
+        Bean级生命周期接口方法   BeanNameAware、BeanFactoryAware、InitializingBean和DiposableBean这些接口的方法
+        容器级生命周期接口方法　 InstantiationAwareBeanPostProcessor 和 BeanPostProcessor 这两个接口实现，
+        一般称它们的实现类为“后处理器”。
+        工厂后处理器接口方法    AspectJWeavingEnabler, ConfigurationClassPostProcessor, CustomAutowireConfigurer等等
+        非常有用的工厂后处理器　　接口的方法。工厂后处理器也是容器级的。在应用上下文装配配置文件之后立即调用
+            实例BeanFactoryPostProcessor实例化出 
+                容器级别生命周期接口 BeanPostProcessor ，InstantiationAwareBeanPostProcessor 。
+                InstantiationAwareBeanPostProcessor 执行before方法对对象属性进行修改
+                在执行Bean构造器
+                InstantiationAwareBeanPostProcessor 执行Property方法
+                为bean注入属性
+                调用Bean级生命周期接口方法
+                BeanNameAware  BeanFactoryAware
+                调用容器级生命周期接口方法　
+                    BeanPostProcessor 
+                调用Bean级生命周期接口方法
+                InitializingBean
+                调用Bean自身的方法
+                nit-method
+                调用容器级生命周期接口方法　
+                BeanPostProcessor  after方法 修改对象属性
+                InstantiationAwareBeanPostProcessor  after方法 修改对象属性
+                ....初始化成功后正常使用......
+                调用Bean级生命周期接口方法
+                DiposableBean
+                调用Bean自身的方法
+                destroy-method
+                销毁
+    测试结果
+    现在开始初始化容器
+    2014-5-18 15:46:20 org.springframework.context.support.AbstractApplicationContext prepareRefresh
+    信息: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@19a0c7c: startup date 
+    [Sun May 18 15:46:20 CST 2014]; root of context hierarchy
+    2014-5-18 15:46:20 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+    信息: Loading XML bean definitions from class path resource [springBeanTest/beans.xml]
+    这是BeanFactoryPostProcessor实现类构造器！！
+    BeanFactoryPostProcessor调用postProcessBeanFactory方法
+    这是BeanPostProcessor实现类构造器！！
+    这是InstantiationAwareBeanPostProcessorAdapter实现类构造器！！
+    2014-5-18 15:46:20 org.springframework.beans.factory.support.DefaultListableBeanFactory preInstantiateSingletons
+    信息: Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@9934d4: 
+    defining beans [beanPostProcessor,instantiationAwareBeanPostProcessor,beanFactoryPostProcessor,person]; 
+    root of factory hierarchy
+    InstantiationAwareBeanPostProcessor调用postProcessBeforeInstantiation方法
+    【构造器】调用Person的构造器实例化
+    InstantiationAwareBeanPostProcessor调用postProcessPropertyValues方法
+    【注入属性】注入属性address
+    【注入属性】注入属性name
+    【注入属性】注入属性phone
+    【BeanNameAware接口】调用BeanNameAware.setBeanName()
+    【BeanFactoryAware接口】调用BeanFactoryAware.setBeanFactory()
+    BeanPostProcessor接口方法postProcessBeforeInitialization对属性进行更改！
+    【InitializingBean接口】调用InitializingBean.afterPropertiesSet()
+    【init-method】调用<bean>的init-method属性指定的初始化方法
+    BeanPostProcessor接口方法postProcessAfterInitialization对属性进行更改！
+    InstantiationAwareBeanPostProcessor调用postProcessAfterInitialization方法
+    容器初始化成功
+    Person [address=广州, name=张三, phone=110]
+    现在开始关闭容器！
+    【DiposibleBean接口】调用DiposibleBean.destory()
+    【destroy-method】调用<bean>的destroy-method属性指定的初始化方法
+    spring bean的作用域
+        最常用的singleton和prototype。
+    1 singleton：单例模式，在整个Spring IoC容器中，使用singleton定义的Bean将只有一个实例
+    2 prototype：原型模式，每次通过容器的getBean方法获取prototype定义的Bean时，都将产生一个新的Bean实例
+    3 request：对于每次HTTP请求，使用request定义的Bean都将产生一个新实例，即每次HTTP请求将会产生不同的Bean实例。
+        只有在Web应用中使用Spring时，该作用域才有效
+    4 session：对于每次HTTP Session，使用session定义的Bean都将产生一个新实例。同样只有在Web应用中使用Spring时，
+        该作用域才有效   
+    5 globalsession：每个全局的HTTP Session，使用session定义的Bean都将产生一个新实例。典型情况下，
+        仅在使用portlet context的时候有效。同样只有在Web应用中使用Spring时，该作用域才有效
+```             
+## spring mvc
+```
+    链接地址：http://www.jianshu.com/writer#/notebooks/10847232/notes/12195951
 ```
 ## RPC协议
 ```
