@@ -37,7 +37,7 @@ public class ProducerQueue {
         //参数4：队列不再使用时是否自动删除（没有连接，并且没有未处理的消息)
         //参数5：建立队列时的其他参数
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        String message = "Hello World! hang de lei de 消息";
+        String message = "Hello World! zhang de lei de 消息";
         //向server发布一条消息
         //参数1：exchange名字，若为空则使用默认的exchange
         //参数2：routing key
