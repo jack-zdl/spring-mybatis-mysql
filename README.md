@@ -397,6 +397,11 @@ java新工具
         该作用域才有效   
     5 globalsession：每个全局的HTTP Session，使用session定义的Bean都将产生一个新实例。典型情况下，
         仅在使用portlet context的时候有效。同样只有在Web应用中使用Spring时，该作用域才有效
+        
+    源码解析
+    主要的二个jar，是org。springframework.beans和org.springframework.context
+    org,springframework.beans下的factory的BeanFactory接口提供了一个先进的配置机制能够管理任何类型的对象。
+    需要配置元数据。
 ```             
 ## spring mvc
 ```
@@ -426,5 +431,12 @@ java新工具
 ## VisualVM使用
 ```
     内部底层 使用JDK内部：JConsole
+```
+## spring定时器
+```
+    fixed-delay  个具有固定延迟的周期性触发器
+    initial-delay  无论先前的执行需要多长时间，应执行该方法的频率
+     fixed-rate  固定速率任务
+    
 ```
 
