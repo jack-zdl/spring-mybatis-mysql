@@ -53,6 +53,7 @@
     <!--
           开始aop注解 让 AspectJ注解起作用
             自动为匹配的类生成代理对象
+            proxy-target-class 默认为false 默认只能代理接口（使用JDK动态代理），当为true,才能代理目标类（使用CGLib动态代理）
       -->
     <aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
 
