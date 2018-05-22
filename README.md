@@ -63,6 +63,37 @@
 ## 2mysql下的事物管理和mybatis的事物管理
 ```
 数据库的4种隔离级别，spring的7中传播行为
+    事务四个属性 原子性是基础，隔离性是手段，持久性是目的，最终是一致性。
+    事务隔离界别
+    seriallizable（TransactionDefinition.ISOLATION_SERIALIZABLE） 不允许脏读 不允许不可以 不允许幻读 
+    repeatable_read（TransactionDefinition.ISOLATION_REPEATABLE_READ） 不允许脏读 不允许不可以 允许幻读
+    read_committed(TransactionDefinition.ISOLATION_READ_COMMITTED)  不允许脏读 允许不可以 允许幻读
+    read_uncommitted(TransactionDefinition.ISOLATION_READ_UNCOMMITTED) 允许脏读  允许不可重复 允许幻读
+    Dirty Read 脏读 
+    A 事务的查询 查询到  B事务的其中过程中的结果。
+    Unrepeatable Read 不可重复读
+    A 事务 查询了多次，多次的结果不一致。
+    Phantom Read 幻读
+    A 
+    （required）TransactionDefinition.PROPAGATION_REQUIRED：如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。
+         这个是最常见的传播行为,所以这个级别通常能满足处理大多数的业务场景。
+    (requires_new)TransactionDefinition.PROPAGATION_REQUIRES_NEW：创建一个新的事务，如果当前存在事务，则把当前事务挂起。
+        执行新事务完成以后，当前事务恢复再执行。这是一个很有用的传播级别，举一个应用场景：现在有一个发送100个红包的操作，
+        在发送之前，要做一些系统的初始化、验证、数据记录操作，然后发送100封红包，然后再记录发送日志，发送日志要求100%的准确，
+        如果日志不准确，那么整个父事务逻辑需要回滚。怎么处理整个业务需求呢？就是通过这个PROPAGATION_REQUIRES_NEW 级别的事务传播
+        控制就可以完成。发送红包的子事务不会直接影响到父事务的提交和回滚。
+    (supports)TransactionDefinition.PROPAGATION_SUPPORTS：如果当前存在事务，则加入该事务；如果当前没有事务，
+        则以非事务的方式继续运行。应用场景较少。
+    (not_supported)TransactionDefinition.PROPAGATION_NOT_SUPPORTED：以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+        非事务执行后在执行当前事务。
+    （propagation_never）TransactionDefinition.PROPAGATION_NEVER：以非事务方式运行，如果当前存在事务，则抛出异常。不能存在上下文事物
+    （propagation_mandatory）TransactionDefinition.PROPAGATION_MANDATORY：如果当前存在事务，则加入该事务；如果当前没有事务，
+        则抛出异常。(上下文必须有事物)
+    (propagation_nested)TransactionDefinition.PROPAGATION_NESTED：如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；
+        如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。
+     spring 
+        事务超时 - 为了解决事务时间太长，故意设置最大时长，如果超过了，回滚事务。
+        只读事务 - 忽略不需要事务的方法。
 1 问题：当外部一个事物方法调用内部另二个事物方法时，这里出现了问题，
     外部事物不会滚。内部事物出现异常的回滚，不出现异常不会滚。
   解决：问题原因没有真正的出现异常，我在末尾finally{}返回数据，被认为没有发现异常，所以没有回滚。
@@ -312,6 +343,14 @@ java新工具
 ## spring aop
 ```
     链接地址：http://www.jianshu.com/writer#/notebooks/10847232/notes/12195951
+    对于方法的增强叫织入，对类的增强叫引入。
+    Spring + AspectJ 使用AspectJ切点表达式。这些注释表达式是AspectJ的特点。
+    execution(* aop.demo.GreeImpl.* (..))
+    第一个 * 表示方法的返回值是任意的
+    第二个 * 表示匹配该类中所有的方法
+    (..)表示方法的参数的任意。
+    如果你想匹配指定的方法 将第二个 * 改为指定的方法。
+    
 ```
 ## spring ioc
 ```
