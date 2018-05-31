@@ -36,8 +36,9 @@ public class LoginController {
             respJson = loginService.login(request, param);
         } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure(e.getMessage());
+        }finally {
+            return respJson;
         }
-        return respJson;
     }
 
     /**
@@ -50,6 +51,7 @@ public class LoginController {
     @ResponseBody
     public RespJson loginByGet(HttpServletRequest request, @RequestBody Map<String, Object> param) {
         RespJson respJson = null;
+
         return respJson;
     }
 

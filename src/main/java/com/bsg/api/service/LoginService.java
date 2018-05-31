@@ -41,7 +41,7 @@ public class LoginService {
      */
     @Transactional(rollbackFor = APIException.class)
     public RespJson login(HttpServletRequest request, Map<String, Object> param) throws APIException {
-        RespJson respJson = null;
+
         logger.error("user访问进来：" + param);
         UserEntity user = userDao.getUser(param);
         Date date = DateUtil.getCurrentDateTime();
@@ -53,6 +53,7 @@ public class LoginService {
                 if (!user.getValidate()) {
                     return RespJsonFactory.buildWarning("用户无权限登录");
                 } else {
+                    // 获得session
                     HttpSession session = request.getSession();
                     session.setAttribute(SysConstants.SESSION_USER, user);
 
@@ -70,17 +71,7 @@ public class LoginService {
                 }
             }
         } catch (Exception e) {
-            OperatelogEntity operatelog = new OperatelogEntity();
-            System.out.println(PrimaryKeyUtils.uniqueId());
-            operatelog.setId(PrimaryKeyUtils.uniqueId());
-            operatelog.setOperatePage(DictTypeConstants.PAGE_LOGIN);
-            operatelog.setOperateType(DictConstants.BUTTON_LOGIN);
-            operatelog.setOperator(user.getUsername());
-            operatelog.setOperateTime(date);
-            operatelog.setStatus(SysConstants.ACTION_FAIL);
-            operatelog.setOperateDesc(IPUtil.getIp(request));
-            operatelogDao.save(operatelog);
-            logger.error("账号密码验证异常", e);
+            e.printStackTrace();
             throw new APIException("账号密码验证异常:" + e.getMessage());
         }
     }

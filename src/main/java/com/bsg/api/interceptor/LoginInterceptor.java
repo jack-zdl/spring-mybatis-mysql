@@ -24,14 +24,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
         System.out.println("进入拦截器！");
-        HttpSession session = request.getSession();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=utf-8");
-        if (session.getAttribute(SysConstants.SESSION_USER) == null) {
-            //JSONObject.toJSONString 用SerializerFeature.WriteMapNullValue来设定是否显示null值
-            response.getWriter().write(JSONObject.toJSONString(RespJsonFactory.buildNotLogin(), SerializerFeature.WriteMapNullValue));
-            return false;
-        }
+//        HttpSession session = request.getSession();
+//        response.setCharacterEncoding("UTF-8");
+//        response.setContentType("application/json; charset=utf-8");
+//        if (session.getAttribute(SysConstants.SESSION_USER) == null) {
+//            //JSONObject.toJSONString 用SerializerFeature.WriteMapNullValue来设定是否显示null值
+//            response.getWriter().write(JSONObject.toJSONString(RespJsonFactory.buildNotLogin(), SerializerFeature.WriteMapNullValue));
+//            return false;
+//        }
         return true;
     }
 

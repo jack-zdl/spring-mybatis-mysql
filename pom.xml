@@ -36,6 +36,7 @@
         <commonsHttpclient.version>3.1</commonsHttpclient.version>
         <webVersion>3.0</webVersion>
         <ehcache.version>2.10.3</ehcache.version>
+        <cglib.version>3.2.4</cglib.version>
         <!-- environment setting -->
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -209,6 +210,18 @@
             <artifactId>spring-data-redis</artifactId>
             <version>1.6.2.RELEASE</version>
         </dependency>
+        <!-- Spring Session -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session</artifactId>
+            <version>1.2.2.RELEASE</version>
+        </dependency>
+        <!-- Apache Commons Pool -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.4.2</version>
+        </dependency>
         <!--校验数据
            必须依赖正确的jar，之前就是错误的jar
        -->
@@ -233,15 +246,20 @@
         <!-- SECURITY begin
             shiro-spring依赖于shiro-core，shiro-web
         -->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.shiro</groupId>-->
+            <!--<artifactId>shiro-spring</artifactId>-->
+            <!--<version>${shiro.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.shiro</groupId>-->
+            <!--<artifactId>shiro-ehcache</artifactId>-->
+            <!--<version>${shiro.version}</version>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-ehcache</artifactId>
-            <version>${shiro.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
         </dependency>
 
 
@@ -255,6 +273,13 @@
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib.version}</version>
+        </dependency>
+
     </dependencies>
     <!--
         编译设置http://www.cnblogs.com/zz0412/p/Maven_pom.html
