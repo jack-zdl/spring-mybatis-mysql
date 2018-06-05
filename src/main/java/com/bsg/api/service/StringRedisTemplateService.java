@@ -2,12 +2,15 @@ package com.bsg.api.service;
 
 import com.alibaba.druid.util.StringUtils;
 import com.bsg.api.exception.APIException;
+import com.bsg.api.redis.RedisLock;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.Jedis;
 import sun.security.util.KeyUtil;
 
 import javax.annotation.Resource;
@@ -20,11 +23,22 @@ import java.util.Map;
 @Service()
 public class StringRedisTemplateService extends BaseService {
 
-    public static int  i = 0;
-    //    ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:config/spring-redis.xml");
-//    StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) ctx.getBean("stringRedisTemplate");
+    public  volatile static Integer  i = 0;
+    public static Integer j = 0;
+
+    private static final String LOCK_SUCCESS = "OK";
+    private static final String SET_IF_NOT_EXIST = "NX";
+    private static final String SET_WITH_EXPIRE_TIME = "PX";
+
+    /**
+     * 锁超时时间，防止线程在入锁以后，无限的执行等待
+     */
+    private int expireMsecs = 60 * 1000;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @Override
     public RespJson list(HttpServletRequest request, Map<String, Object> param) throws APIException {
@@ -48,11 +62,25 @@ public class StringRedisTemplateService extends BaseService {
         try {
             ValueOperations<String, String> vop = stringRedisTemplate.opsForValue();
             for (String key : param.keySet()) {
-                i++;
-                System.out.println("key=" + key + "value=" + (String) param.get(key));
-                vop.set(key, "="+i);
+                RedisLock lock = new RedisLock(redisTemplate, "zhang", 10000, 20000);
+                try {
+                    if(lock.lock()) {
+                        //需要加锁的代码
+                        i++;
+                        System.out.println("key=" + key + "value=" + (String) param.get(key));
+                        vop.set("zhang", "="+i);
+                    }
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                } finally {
+                //为了让分布式锁的算法更稳键些，持有锁的客户端在解锁之前应该再检查一次自己的锁是否已经超时，再去做DEL操作，因为可能客户端因为某个耗时的操作而挂起，
+                //操作完的时候锁因为超时已经被别人获得，这时就不必解锁了。 ————这里没有做
+                lock.unlock();
             }
-            // vop.set("aaaaa", "bbbbb");
+//                i++;
+//                System.out.println("key=" + key + "value=" + (String) param.get(key));
+//                vop.set(key, "="+i);
+            }
             respJson = RespJsonFactory.buildSuccess("stringRedisTemplate新增成功！");
         } catch (Exception e) {
             throw new APIException();
@@ -64,7 +92,30 @@ public class StringRedisTemplateService extends BaseService {
 
     @Override
     public RespJson update(HttpServletRequest request, Map<String, Object> param) throws APIException {
-        return null;
+        RespJson respJson = null;
+        try {
+                ValueOperations<String, String> vop = stringRedisTemplate.opsForValue();
+                for (String key : param.keySet()) {
+                    RedisLock lock = new RedisLock(redisTemplate, "zhang", 10000, 20000);
+                    try {
+                        if(lock.lock()) {
+                            //需要加锁的代码
+                            i++;
+                            vop.set("zhang", "="+i);
+                        }
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    } finally {
+                        //为了让分布式锁的算法更稳键些，持有锁的客户端在解锁之前应该再检查一次自己的锁是否已经超时，再去做DEL操作，因为可能客户端因为某个耗时的操作而挂起，
+                        //操作完的时候锁因为超时已经被别人获得，这时就不必解锁了。 ————这里没有做
+                        lock.unlock();
+                    }
+                }
+            respJson = RespJsonFactory.buildSuccess("stringRedisTemplate新增成功！");
+        } catch (Exception e) {
+            throw new APIException();
+        }
+        return respJson;
     }
 
     @Override
@@ -104,7 +155,7 @@ public class StringRedisTemplateService extends BaseService {
      * @return 锁住返回true
      */
     public boolean lock(String key,String value){
-        if(stringRedisTemplate.opsForValue().setIfAbsent(key,value)){//setNX 返回boolean
+        if(stringRedisTemplate.opsForValue().setIfAbsent(key,value)){ //setNX 返回boolean
             return true;
         }
         //如果锁超时 ***
