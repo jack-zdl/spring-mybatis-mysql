@@ -60,7 +60,8 @@ public class StringRedisTemplateService extends BaseService {
     public RespJson save(HttpServletRequest request, Map<String, Object> param) throws APIException {
         RespJson respJson = null;
         try {
-            ValueOperations<String, String> vop = stringRedisTemplate.opsForValue();
+//            redisTemplate.opsForValue().set(key, param.get(key));
+            ValueOperations<String, String> vop = redisTemplate.opsForValue();
             for (String key : param.keySet()) {
                 RedisLock lock = new RedisLock(redisTemplate, "zhang", 10000, 20000);
                 try {
@@ -94,7 +95,8 @@ public class StringRedisTemplateService extends BaseService {
     public RespJson update(HttpServletRequest request, Map<String, Object> param) throws APIException {
         RespJson respJson = null;
         try {
-                ValueOperations<String, String> vop = stringRedisTemplate.opsForValue();
+//                ValueOperations<String, String> vop = stringRedisTemplate.opsForValue();
+            ValueOperations<String, String> vop = redisTemplate.opsForValue();
                 for (String key : param.keySet()) {
                     RedisLock lock = new RedisLock(redisTemplate, "zhang", 10000, 20000);
                     try {

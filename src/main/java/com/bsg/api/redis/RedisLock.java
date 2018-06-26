@@ -10,6 +10,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * 功能说明:   redis的锁类 <br>
+ *     真实实践起来发现并不能保证分布式锁的问题。
  * 系统版本: 2.0 <br>
  * 开发人员: zhangdl <br>
  * 开发时间:2018/6/2 11:51<br>
