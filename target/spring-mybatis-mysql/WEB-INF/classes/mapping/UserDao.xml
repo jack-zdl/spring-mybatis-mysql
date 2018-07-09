@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ <mapper namespace="com.bsg.api.dao.UserDao">
+    <resultMap id="ResultMap" type="com.bsg.api.entity.UserEntity">
+        <result property="username" column="username"></result>
+        <result property="name" column="name"></result>
+        <result property="password" column="password"></result>
+        <result property="validate" column="validate"></result>
+        <result property="money" column="money"></result>
+    </resultMap>
+
+    <select id="list" resultMap="ResultMap">
+        SELECT *
+        FROM tbl_user
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="price != null">
+                price =#{price}
+            </if>
+            <if test="number != null">
+                number = #{number}
+            </if>
+        </where>
+    </select>
+
+    <select id="getUser" parameterType="java.util.Map" resultMap="ResultMap">
+        SELECT *
+        FROM tbl_user u
+        WHERE username = #{username}
+        <if test="password!=null and password!=''">
+            AND password = #{password}
+        </if>
+    </select>
+
+    <update id="update" parameterType="com.bsg.api.entity.UserEntity" >
+        UPDATE tbl_user
+        <set>
+            <if test="name != null">
+                name =#{name},
+            </if>
+            <if test="password != null">
+                password =#{password},
+            </if>
+            <if test="validate != null">
+                validate =#{validate},
+            </if>
+            <if test="money != null">
+                money =#{money}
+            </if>
+        </set>
+        WHERE  username = #{username}
+    </update>
+</mapper>

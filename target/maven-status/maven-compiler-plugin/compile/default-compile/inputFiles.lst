@@ -15,6 +15,7 @@ E:\ceying\CeYingProject\spring-mybatis-mysql\src\main\java\com\bsg\api\dto\BaseD
 E:\ceying\CeYingProject\spring-mybatis-mysql\src\main\java\com\bsg\api\filter\RequestFilter.java
 E:\ceying\CeYingProject\spring-mybatis-mysql\src\main\java\com\bsg\api\service\SelectUtilService.java
 E:\ceying\CeYingProject\spring-mybatis-mysql\src\main\java\com\bsg\api\dao\OperatelogDao.java
+E:\ceying\CeYingProject\spring-mybatis-mysql\src\main\java\com\bsg\api\redis\RedisLock.java
 E:\ceying\CeYingProject\spring-mybatis-mysql\src\main\java\com\bsg\api\interceptor\LoginWebRequestInterceptor.java
 E:\ceying\CeYingProject\spring-mybatis-mysql\src\main\java\com\bsg\api\interceptor\ShiroRealmInterceptor.java
 E:\ceying\CeYingProject\spring-mybatis-mysql\src\main\java\com\bsg\api\shiro\HellloShiro.java

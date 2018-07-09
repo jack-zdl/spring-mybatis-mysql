@@ -1,6 +1,7 @@
 com\bsg\api\redis\TestJedis.class
 com\bsg\api\constant\DictConstants.class
 com\bsg\api\exception\RedisConnectException.class
+com\bsg\api\redis\RedisLock$1.class
 com\bsg\api\controller\TransactionalController.class
 com\bsg\api\util\RespJsonFactory.class
 com\bsg\api\exception\ServerException.class
@@ -48,7 +49,9 @@ com\bsg\api\controller\SelectController.class
 com\bsg\api\util\IPUtil.class
 com\bsg\api\proxy\CGLibProxy.class
 com\bsg\api\service\UserService.class
+com\bsg\api\redis\RedisLock$2.class
 com\bsg\api\controller\HttpClientController.class
+com\bsg\api\redis\RedisLock.class
 com\bsg\api\filter\RequestFilter.class
 com\bsg\api\mq\ProducerQueue.class
 com\bsg\api\dao\CrudDao.class
@@ -60,6 +63,7 @@ com\bsg\api\service\TaskJob.class
 com\bsg\api\controller\LoginController.class
 com\bsg\api\exception\HttpConnectionException.class
 com\bsg\api\dto\BookDto.class
+com\bsg\api\redis\RedisLock$3.class
 com\bsg\api\service\LoginService.class
 com\bsg\api\controller\RedisStringController.class
 com\bsg\api\util\HttpClientUtils.class
