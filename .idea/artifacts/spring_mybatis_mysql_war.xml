@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="spring-mybatis-mysql:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="spring-mybatis-mysql.war">
-      <element id="artifact" artifact-name="spring-mybatis-mysql:war exploded" />
-    </root>
-  </artifact>
-</component>
