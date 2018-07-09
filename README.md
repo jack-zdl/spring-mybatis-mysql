@@ -274,6 +274,10 @@ ab=apache bench测试自动化测试
         <!-- 线程池维护线程所允许的空闲时间 -->
         <property name="keepAliveSeconds" value="300"/>
         <!-- 线程池对拒绝任务(无线程可用)的处理策略 ThreadPoolExecutor.CallerRunsPolicy策略 ,调用者的线程会执行该任务,
+        1、直接丢弃（DiscardPolicy）
+        2、丢弃队列中最老的任务(DiscardOldestPolicy)。
+        3、抛异常
+        4、将任务分给调用线程来执行。
         如果执行器已关闭,则丢弃. -->
         <property name="rejectedExecutionHandler">
             <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
