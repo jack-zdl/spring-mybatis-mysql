@@ -492,7 +492,5 @@ java新工具
     fixed-delay  个具有固定延迟的周期性触发器
     initial-delay  无论先前的执行需要多长时间，应执行该方法的频率
      fixed-rate  固定速率任务
-    
 ```
-## bbbb
 

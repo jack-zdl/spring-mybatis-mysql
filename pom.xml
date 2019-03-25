@@ -66,6 +66,7 @@
             <artifactId>aspectjrt</artifactId>
             <version>${springaop.version}</version>
         </dependency>
+
         <!-- spring jdbc jar包-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -101,8 +102,14 @@
             <artifactId>mybatis-spring</artifactId>
             <version>${mybatis-spring.version}</version>
         </dependency>
+        <!-- mybatis的分页插件 -->
+         <dependency>
+             <groupId>com.github.pagehelper</groupId>
+             <artifactId>pagehelper</artifactId>
+             <version>4.1.6</version>
+         </dependency>
         <!-- 日志文件管理包 -->
-        <!-- log start -->
+         <!--log start-->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -246,16 +253,16 @@
         <!-- SECURITY begin
             shiro-spring依赖于shiro-core，shiro-web
         -->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.shiro</groupId>-->
-            <!--<artifactId>shiro-spring</artifactId>-->
-            <!--<version>${shiro.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.shiro</groupId>-->
-            <!--<artifactId>shiro-ehcache</artifactId>-->
-            <!--<version>${shiro.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -278,6 +285,19 @@
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>${cglib.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-lang3</artifactId>-->
+            <!--<version>3.8.1</version>-->
+        <!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
         </dependency>
 
     </dependencies>

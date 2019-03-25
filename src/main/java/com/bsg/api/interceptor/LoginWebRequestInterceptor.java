@@ -7,7 +7,7 @@ import org.springframework.web.context.request.WebRequestInterceptor;
 /**
  * Created by zhang on 2017/5/18.
  */
-public class LoginWebRequestInterceptor implements WebRequestInterceptor {
+public class LoginWebRequestInterceptor implements WebRequestInterceptor{
     /**
      * 在请求处理之前执行，该方法主要是用于准备资源数据的，然后可以把它们当做请求属性放到WebRequest中
      */

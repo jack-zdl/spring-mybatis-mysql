@@ -1,15 +1,15 @@
 package com.bsg.api.aspect;
 
-import org.aspectj.lang.annotation.Aspect;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+//import org.aspectj.lang.annotation.Aspect;
+//import org.springframework.core.annotation.Order;
+//import org.springframework.stereotype.Component;
 
 /**
  * Created by zhang on 2017/3/28.
  */
-@Order(1)
-@Component("login")
-@Aspect
+//@Order(1)
+//@Component("login")
+//@Aspect
 public class LoginAspect {
 
 //    @Pointcut("execution(public * com.bsg.api.controller.*.*(..))" +

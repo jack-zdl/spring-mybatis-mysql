@@ -4,7 +4,7 @@ import com.bsg.api.exception.APIException;
 import com.bsg.api.exception.RedisConnectException;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Service()
 public class RedisTemplateService extends BaseService {
-    private static Logger logger = Logger.getLogger(RedisTemplateService.class);
+//    private static Logger logger = Logger.getLogger(RedisTemplateService.class);
     @Resource
     private RedisTemplate redisTemplate;
 
@@ -35,7 +35,6 @@ public class RedisTemplateService extends BaseService {
         try {
             DataType type = redisTemplate.type(param.get("key"));
             if (DataType.NONE == type) {
-                logger.info("key不存在!");
                 respJson = RespJsonFactory.buildFailure("没有查询到！");
                 return respJson;
             } else if (DataType.STRING == type) {

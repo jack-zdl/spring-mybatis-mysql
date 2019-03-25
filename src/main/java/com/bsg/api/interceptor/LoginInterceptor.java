@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by zhang on 2017/5/18.
  */
-public class LoginInterceptor extends HandlerInterceptorAdapter {
+public class LoginInterceptor  extends HandlerInterceptorAdapter{
     /**
      * preHandle方法是进行处理器拦截用的，顾名思义，该方法将在Controller处理之前进行调用，SpringMVC中的Interceptor拦截器是链式的，可以同时存在
      * 多个Interceptor，然后SpringMVC会根据声明的前后顺序一个接一个的执行，而且所有的Interceptor中的preHandle方法都会在

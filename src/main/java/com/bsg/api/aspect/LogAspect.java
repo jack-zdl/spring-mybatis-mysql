@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
  *
  * @description 日志切面编程
  */
-@Order(2)
+/*@Order(2)
 @Component
-@Aspect
+@Aspect*/
 public class LogAspect {
-    @Pointcut("execution(public * com.bsg.api.service.*.*(..))")
+//    @Pointcut("execution(public * com.bsg.api.service.*.*(..))")
     public void pointCut() {
     }
 

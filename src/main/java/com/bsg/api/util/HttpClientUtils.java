@@ -9,7 +9,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import static org.apache.http.HttpStatus.SC_OK;
  */
 public class HttpClientUtils {
 
-    private static Logger logger = Logger.getLogger(HttpClientUtils.class);
+//    private static Logger logger = Logger.getLogger(HttpClientUtils.class);
 
     public static final String METHOD_GET = "get";
     public static final String METHOD_POST = "post";
@@ -85,10 +85,8 @@ public class HttpClientUtils {
             HttpEntity httpEntity = httpResponse.getEntity();//得到返回结果的数据
             if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
                 respStr = EntityUtils.toString(httpEntity, "utf-8");
-                logger.info("postHttp连接通过" + respStr);
                 respJson = RespJsonFactory.buildSuccess("postHttp连接通过!", respStr);
             } else {
-                logger.info("postHttp连接不通过");
                 respJson = RespJsonFactory.buildFailure("postHttp连接不通过!");
             }
             // 释放资源
@@ -122,13 +120,12 @@ public class HttpClientUtils {
                 if (entity != null) {
                     respStr = EntityUtils.toString(entity, "UTF-8");
                 }
-                logger.info("getHttp连接通过" + respStr);
                 // 释放资源
                 EntityUtils.consume(entity);
                 respJson = RespJsonFactory.buildSuccess("getHttp连接通过!", respStr);
             }
         } catch (Exception e) {
-            logger.error("getHttp连接失败");
+//            logger.error("getHttp连接失败");
             e.printStackTrace();
         }
         return respJson;
@@ -148,10 +145,8 @@ public class HttpClientUtils {
             httpEntity = closeableHttpResponse.getEntity();
             if (closeableHttpResponse.getStatusLine().getStatusCode() == SC_OK) {
                 responseContent = EntityUtils.toString(httpEntity, "utf-8");
-                logger.info("putHttp连接通过" + responseContent);
                 respJson = RespJsonFactory.buildSuccess("putHttp连接通过!", responseContent);
             } else {
-                logger.info("putHttp连接不通过");
                 respJson = RespJsonFactory.buildFailure("putHttp连接通过!");
             }
             EntityUtils.consume(httpEntity);
@@ -176,10 +171,8 @@ public class HttpClientUtils {
             httpEntity = closeableHttpResponse.getEntity();
             if (closeableHttpResponse.getStatusLine().getStatusCode() == SC_OK) {
                 responseContent = EntityUtils.toString(httpEntity, "utf-8");
-                logger.info("deleteHttp连接通过!" + responseContent);
                 respJson = RespJsonFactory.buildSuccess("deleteHttp连接通过!", responseContent);
             } else {
-                logger.info("deleteHttp连接不通过!");
                 respJson = RespJsonFactory.buildFailure("deleteHttp连接不通过!");
             }
             EntityUtils.consume(httpEntity);

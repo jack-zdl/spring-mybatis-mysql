@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @description 允许跨域的工具类 Created by zhang on 2017/3/29.
  */
-public class CommonInterceptor extends HandlerInterceptorAdapter {
+public class CommonInterceptor  extends HandlerInterceptorAdapter{
 
     @Override
     public boolean preHandle(HttpServletRequest request,

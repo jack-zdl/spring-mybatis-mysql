@@ -9,7 +9,7 @@ import com.bsg.api.entity.OperatelogEntity;
 import com.bsg.api.entity.UserEntity;
 import com.bsg.api.exception.APIException;
 import com.bsg.api.util.*;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +26,7 @@ import java.util.Map;
 @Service("loginService")
 public class LoginService {
 
-    private static Logger logger = Logger.getLogger(LoginService.class);
+//    private static Logger logger = Logger.getLogger(LoginService.class);
 
     @Resource
     private UserDao userDao;
@@ -42,12 +42,10 @@ public class LoginService {
     @Transactional(rollbackFor = APIException.class)
     public RespJson login(HttpServletRequest request, Map<String, Object> param) throws APIException {
 
-        logger.error("user访问进来：" + param);
         UserEntity user = userDao.getUser(param);
         Date date = DateUtil.getCurrentDateTime();
         try {
             if (user == null) {
-                logger.error("用户名密码错误");
                 return RespJsonFactory.buildWarning("用户名密码错误");
             } else {
                 if (!user.getValidate()) {

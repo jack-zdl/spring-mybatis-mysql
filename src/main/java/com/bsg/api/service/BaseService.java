@@ -6,7 +6,7 @@ import com.bsg.api.exception.APIException;
 import com.bsg.api.util.DateUtil;
 import com.bsg.api.util.PrimaryKeyUtils;
 import com.bsg.api.util.RespJson;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,7 +22,7 @@ import java.util.Map;
 @Service()
 public abstract class BaseService {
 
-    private static Logger logger = Logger.getLogger(BaseService.class);
+//    private static Logger logger = Logger.getLogger(BaseService.class);
 
     @Resource
     private OperatelogDao operatelogDao;
@@ -50,7 +50,7 @@ public abstract class BaseService {
             OperatelogEntity operatelog = getOperateLog(page, type, user, status, description);
             operatelogDao.save(operatelog);
         } catch (Exception e) {
-            logger.error("save日志出错" + e.getMessage());
+//            logger.error("save日志出错" + e.getMessage());
             e.printStackTrace();
         }
 

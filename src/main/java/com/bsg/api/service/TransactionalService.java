@@ -11,7 +11,7 @@ import com.bsg.api.exception.APIException;
 import com.bsg.api.util.IPUtil;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,7 @@ import java.util.Map;
 @Service("bookService")
 public class TransactionalService extends BaseService {
 
-    private static Logger logger = Logger.getLogger(TransactionalService.class);
+//    private static Logger logger = Logger.getLogger(TransactionalService.class);
     @Resource
     private BookDao bookDao;
     @Resource
@@ -119,7 +119,7 @@ public class TransactionalService extends BaseService {
             bookDao.update(bookEntity); //一次更新
             int number = Integer.parseInt(bookEntity.getNumber());
             if (0 > number) {
-                logger.error("书的库存不足。");
+//                logger.error("书的库存不足。");
                 throw new APIException("书的库存不足,事物回滚");
             } else {
                 respJson = RespJsonFactory.buildSuccess("更新书籍成功");
@@ -135,15 +135,15 @@ public class TransactionalService extends BaseService {
             userEntity.setMoney(String.valueOf(money - bookPrice));
             userDao.update(userEntity);
             if (money < bookPrice) {
-                logger.error("书的库存不足。");
-                logger.error("更新用户金额失败。");
+//                logger.error("书的库存不足。");
+//                logger.error("更新用户金额失败。");
                 throw new APIException("更新用户金额失败。");
             } else {
                 respJson = RespJsonFactory.buildSuccess("更新用户金额成功");
             }
             updateOperateLog(DictTypeConstants.PAGE_TYPE, DictConstants.BUTTON_UPDATE, userEntity.getUsername(), SysConstants.ACTION_SUCCESS, IPUtil.getIp(request));
         } catch (Exception e) {
-            logger.error("书籍购买失败" + e);
+//            logger.error("书籍购买失败" + e);
             throw new APIException("书籍购买失败" + e.getMessage());
 
         }
@@ -190,7 +190,7 @@ public class TransactionalService extends BaseService {
                 saveOperateLog(DictTypeConstants.PAGE_TYPE, DictConstants.BUTTON_UPDATE, userEntity.getUsername(), SysConstants.ACTION_SUCCESS, IPUtil.getIp(request));
             }
         } catch (APIException e) {
-            logger.error("书籍购买失败" + e);
+//            logger.error("书籍购买失败" + e);
             throw new APIException("书籍购买失败" + e.getMessage());
         }
         return respJson;

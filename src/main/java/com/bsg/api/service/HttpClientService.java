@@ -9,7 +9,7 @@ import com.bsg.api.exception.APIException;
 import com.bsg.api.util.HttpClientUtils;
 import com.bsg.api.util.IPUtil;
 import com.bsg.api.util.RespJson;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Service()
 public class HttpClientService extends BaseService {
-    private static Logger logger = Logger.getLogger(HttpClientService.class);
+//    private static Logger logger = Logger.getLogger(HttpClientService.class);
     @Value("#{configProperties['method.get.url']}")
     private String methodGetUrl;
     @Value("#{configProperties['method.post.url']}")
@@ -43,7 +43,7 @@ public class HttpClientService extends BaseService {
             saveOperateLog(DictTypeConstants.PAGE_HTTP, DictConstants.HTTP_GET, user.getUsername(), SysConstants.ACTION_SUCCESS, IPUtil.getIp(request));
         } catch (Exception e) {
             saveOperateLog(DictTypeConstants.PAGE_HTTP, DictConstants.HTTP_GET, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-            logger.error("连接出错=" + e.getMessage());
+//            logger.error("连接出错=" + e.getMessage());
             e.printStackTrace();
             throw new APIException("连接出错");
         }
@@ -65,7 +65,7 @@ public class HttpClientService extends BaseService {
             saveOperateLog(DictTypeConstants.PAGE_HTTP, DictConstants.HTTP_POST, user.getUsername(), SysConstants.ACTION_SUCCESS, IPUtil.getIp(request));
         } catch (Exception e) {
             saveOperateLog(DictTypeConstants.PAGE_HTTP, DictConstants.HTTP_POST, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-            logger.error("连接出错=" + e.getMessage());
+//            logger.error("连接出错=" + e.getMessage());
             e.printStackTrace();
             throw new APIException("连接出错");
         }
@@ -82,7 +82,7 @@ public class HttpClientService extends BaseService {
             saveOperateLog(DictTypeConstants.PAGE_HTTP, DictConstants.HTTP_PUT, user.getUsername(), SysConstants.ACTION_SUCCESS, IPUtil.getIp(request));
         } catch (Exception e) {
             saveOperateLog(DictTypeConstants.PAGE_HTTP, DictConstants.HTTP_PUT, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-            logger.error("连接出错=" + e.getMessage());
+//            logger.error("连接出错=" + e.getMessage());
             e.printStackTrace();
             throw new APIException("连接出错");
         }

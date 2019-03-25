@@ -30,6 +30,8 @@ public interface CrudDao<T> {
      */
     int save(T entiry);
 
+    int insertByBatch(List<T> entitys);
+
     /**
      * @description 更新记录
      * @param entity

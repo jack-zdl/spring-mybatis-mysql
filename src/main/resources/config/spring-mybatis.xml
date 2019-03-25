@@ -1,20 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-        http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		">
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
     <!-- 引入jdbc配置文件等多个文件 -->
     <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -51,21 +43,25 @@
         <property name="initialPoolSize" value="${jdbc.pool.init}" />
         <property name="minPoolSize" value="${jdbc.pool.minIdle}" />
         <property name="maxPoolSize" value="${jdbc.pool.maxActive}" />
-
     </bean>
 
-
-
-
-    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件
+        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+        SqlSessionFactory sqlSessionFactory = factoryBean.getObject();
+        SqlSessionFactory 有一个单独的必须属性,就是 JDBC 的 DataSource。
+    -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <!-- 自动扫描mapping.xml文件 -->
+        <!-- 自动扫描mapping.xml文件
+         mapperLocations 属性使用一个资源位置的 list。这个属性可以用来指定 MyBatis 的 XML映射器文件的位置。
+         -->
         <property name="mapperLocations" value="classpath:mapping/*.xml"></property>
-        <!--自动扫面mybatis的其他配置文件 -->
+        <!--自动扫面mybatis的其他配置文件
+         一个通用的属性是 configLocation,它是用来指定 MyBatis 的 XML 配置文件路径的。
+         如果基本的 MyBatis 配置需要改变,那么这就是一个需要它的地方。通常这会是<settings>或<typeAliases>的部分
+         -->
         <property name="configLocation" value="classpath:config/mybatis-config.xml" />
     </bean>
-
     <!--
         DAO接口所在包名，Spring会自动查找其下的类
         自动生成实现类，默认的名字是UserDao >>>>userDao
@@ -74,12 +70,10 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
         <property name="basePackage" value="com.bsg.api.dao" />
     </bean>
-
     <!-- 配置Template模板-->
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
         <constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
     </bean>
-
     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -94,5 +88,4 @@
                 4 transaction-manager：指定到现有的PlatformTransaction Manager bean的引用，通知会使用该引用
      -->
     <tx:annotation-driven  transaction-manager="transactionManager"/>
-
 </beans>

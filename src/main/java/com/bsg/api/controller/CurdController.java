@@ -6,6 +6,9 @@ import com.bsg.api.service.CurdBookService;
 import com.bsg.api.util.RespJson;
 import com.bsg.api.util.RespJsonFactory;
 import com.bsg.api.vo.BookPostVo;
+import org.apache.commons.beanutils.BeanMap;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +16,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by zhang on 2017/4/21. 测试简单的数据库curd 对于书籍的简单的增删改查
  */
-@RestController
+@Controller
 @RequestMapping("/v1.0/crud")
 public class CurdController {
     @Resource
@@ -33,11 +37,12 @@ public class CurdController {
         if (errors.hasErrors()) {
             System.out.println("输入信息错误");
         }
+        Map param = new org.apache.commons.beanutils.BeanMap(bookPostVo);
         RespJson respJson = null;
         System.out.println("bookPostVo" + bookPostVo);
         System.out.println("bookPostVo验证=" + bookPostVo.toString());
         try {
-            //respJson = curdBookService.save(request, param);
+            respJson = curdBookService.save(request, param);
         } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure("书籍新增异常");
             throw new APIException("书籍新增异常");
@@ -98,6 +103,48 @@ public class CurdController {
         RespJson respJson = null;
         try {
             respJson = curdBookService.list(request, param);
+        } catch (Exception e) {
+            respJson = RespJsonFactory.buildFailure("书籍查询异常");
+            throw new APIException("书籍查询异常");
+        }
+        return respJson;
+    }
+
+    /**
+     * @param request
+     * @param param
+     * @return
+     * @description 无论是全部查询还是单个查询都可以使用的get接口可以再url后面添加？ key=value&key1=value1对应的param RequestParam 对应的是get请求的参数
+     */
+    @RequestMapping(value="/page", method = RequestMethod.GET)
+    @ResponseBody
+    public RespJson page(HttpServletRequest request, @RequestParam Map<String, Object> param) throws APIException {
+        RespJson respJson = null;
+        try {
+            respJson = curdBookService.page(request, param);
+        } catch (Exception e) {
+            respJson = RespJsonFactory.buildFailure("书籍查询异常");
+            throw new APIException("书籍查询异常");
+        }
+        return respJson;
+    }
+
+    /**
+     * @param request
+     * @param param
+     * @return
+     * @description 无论是全部查询还是单个查询都可以使用的get接口可以再url后面添加？ key=value&key1=value1对应的param RequestParam 对应的是get请求的参数
+     */
+    @RequestMapping(value="/excutors", method = RequestMethod.GET)
+    @ResponseBody
+    @Transactional(rollbackFor = APIException.class)
+    public RespJson excutors(HttpServletRequest request, @RequestParam Map<String, Object> param) throws APIException {
+        RespJson respJson = null;
+        try {
+            respJson = curdBookService.excutors(request, param);
+            if(1 ==1){
+                throw new APIException("书籍查询异常");
+            }
         } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure("书籍查询异常");
             throw new APIException("书籍查询异常");

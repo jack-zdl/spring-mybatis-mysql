@@ -5,7 +5,7 @@
         <result property="id" column="id"></result>
         <result property="number" column="number"></result>
         <result property="price" column="price"></result>
-        <result property="createDateTime" column="create_datetime"></result>
+        <result property="createDateTime" column="create_date_time"></result>
         <result property="createUserLoginName" column="create_user_login_name"></result>
     </resultMap>
     <!-- 根据条件检索全部 -->
@@ -32,7 +32,7 @@
         id,
         number,
         price,
-        create_datetime,
+        create_date_time,
         create_user_login_name
         )
         VALUE
@@ -43,6 +43,24 @@
         #{createDateTime},
         #{createUserLoginName}
         )
+    </insert>
+
+    <!--
+     useGeneratedKeys="true" 使用自动生成的主键
+    keyProperty="id"    关键字id
+     -->
+    <insert id="insertByBatch" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into tbl_book (
+        id,
+        number,
+        price,
+        create_date_time,
+        create_user_login_name )
+        values
+        <foreach item="item" collection="list"  index="index" separator=",">
+            (#{item.id}, #{item.number},#{item.price},#{item.create_date_time},#{item.create_user_login_name})
+        </foreach>
     </insert>
 
     <update id="update" parameterType="com.bsg.api.entity.BookEntity">
