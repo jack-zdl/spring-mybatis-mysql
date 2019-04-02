@@ -5,7 +5,9 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:cache="http://www.springframework.org/schema/cache"
-       xmlns:task = "http://www.springframework.org/schema/task"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc
@@ -17,7 +19,11 @@
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
         http://www.springframework.org/schema/task
-        http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+        http://www.springframework.org/schema/task/spring-task-4.3.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
     <!-- 基于注解的IOC -->
     <context:component-scan base-package="com"></context:component-scan>
     <!-- 默认的注解映射的支持 -->
@@ -92,4 +98,36 @@
         <!--<task:scheduled ref="taskJob" method="job1"  cron="0 * * * * ?" fixed-delay="5000" fixed-rate="5000"/>-->
     <!--</task:scheduled-tasks>-->
     <!--<task:scheduler id="myScheduler" pool-size="10"/>-->
+
+    <!--<context:property-placeholder location="classpath:config/application.properties"></context:property-placeholder>-->
+    <!--<util:properties id="appconfig" location="classpath:config/application.properties"></util:properties>-->
+    <!-- 连接服务配置 如果MQ服务器在远程服务器上，请新建用户用新建的用户名密码  guest默认不允许远程登录-->
+    <rabbit:connection-factory id="connectionFactory"
+                               host="localhost" username="guest" password="guest" port="5672"
+                               virtual-host="/" channel-cache-size="5" />
+    <!-- 配置爱admin，自动根据配置文件生成交换器和队列，无需手动配置 -->
+    <rabbit:admin connection-factory="connectionFactory" />
+
+    <!-- queue 队列声明 -->
+    <rabbit:queue   durable="true" auto-delete="false" exclusive="false" name="spring.queue.tag" />
+
+    <!-- exchange queue binging key 绑定 声明一个交换机 -->
+    <rabbit:direct-exchange name="spring.queue.exchange" durable="true" auto-delete="false">
+        <rabbit:bindings>
+            <rabbit:binding queue="spring.queue.tag" key="spring.queue.tag.key" />
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+    <!--声明一个 RabbitMQ Template-->
+    <rabbit:template id="amqpTemplate" exchange="spring.queue.exchange" routing-key="spring.queue.tag.key"
+                     connection-factory="connectionFactory"></rabbit:template>
+
+    <!-- qmq消费者配置-->
+    <bean name="rabbitmqService" class="com.bsg.api.service.qmq.RabbitmqService"></bean>
+    <!-- 配置监听-->
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto">
+        <!--
+           queues 监听队列，多个用逗号分隔
+           ref 监听器 -->
+        <rabbit:listener queues="spring.queue.tag" ref="rabbitmqService"/>
+    </rabbit:listener-container>
 </beans>
