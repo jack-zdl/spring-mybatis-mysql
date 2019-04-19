@@ -33,18 +33,31 @@
         <!--<setting name="jdbcTypeForNull" value="NULL"/>-->
     <!--</settings>-->
     <!---->
+
     <!-- 配置mybatis的分页插件PageHelper -->
-         <plugins>
-             <!-- com.github.pagehelper为PageHelper类所在包名 -->
-             <plugin interceptor="com.github.pagehelper.PageHelper">
-                 <!-- 设置数据库类型Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库 -->
-                 <property name="dialect" value="mysql"/>
-                 <!--<property name="offsetAsPageNum" value="false"/>-->
-                 <!--<property name="rowBoundsWithCount" value="false"/>-->
-                 <!--<property name="pageSizeZero" value="true"/>-->
-                 <!--<property name="reasonable" value="false"/>-->
-                 <!--<property name="supportMethodsArguments" value="false"/>-->
-                 <!--<property name="returnPageInfo" value="none"/>-->
-             </plugin>
-         </plugins>
+    <plugins>
+    <plugin interceptor="com.bsg.api.interceptor.PageInterceptor">
+        <property name="databaseType" value="mysql"/>
+    </plugin>
+        <plugin interceptor="com.bsg.api.interceptor.MyMybatisInterceptor">
+            <property name="prop1" value="prop1"/>
+            <property name="databaseType" value="mysql"/>
+        </plugin>
+</plugins>
+<!--    &lt;!&ndash; 配置mybatis的分页插件PageHelper &ndash;&gt;-->
+<!--         <plugins>-->
+<!--             &lt;!&ndash; com.github.pagehelper为PageHelper类所在包名 &ndash;&gt;-->
+<!--             <plugin interceptor="com.github.pagehelper.PageHelper">-->
+<!--                 &lt;!&ndash; 设置数据库类型Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库 &ndash;&gt;-->
+<!--                 <property name="dialect" value="mysql"/>-->
+<!--                 <property name="prop1" value="prop1"/>-->
+<!--                 <property name="prop2" value="prop2"/>-->
+<!--                 &lt;!&ndash;<property name="offsetAsPageNum" value="false"/>&ndash;&gt;-->
+<!--                 &lt;!&ndash;<property name="rowBoundsWithCount" value="false"/>&ndash;&gt;-->
+<!--                 &lt;!&ndash;<property name="pageSizeZero" value="true"/>&ndash;&gt;-->
+<!--                 &lt;!&ndash;<property name="reasonable" value="false"/>&ndash;&gt;-->
+<!--                 &lt;!&ndash;<property name="supportMethodsArguments" value="false"/>&ndash;&gt;-->
+<!--                 &lt;!&ndash;<property name="returnPageInfo" value="none"/>&ndash;&gt;-->
+<!--             </plugin>-->
+<!--         </plugins>-->
 </configuration>

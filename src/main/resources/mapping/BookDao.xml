@@ -19,8 +19,11 @@
         </where>
 
     </select>
+    <select id="findPage" resultType="com.bsg.api.entity.BookEntity" parameterType="com.bsg.api.util.Page">
+        select * from tbl_book
+    </select>
 
-    <select id="get" resultMap="ResultMap">
+<select id="get" resultMap="ResultMap">
         SELECT  *
         FROM  tbl_book
         WHERE id = #{id}
