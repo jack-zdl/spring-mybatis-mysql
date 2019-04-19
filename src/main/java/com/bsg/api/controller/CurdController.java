@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -102,7 +104,10 @@ public class CurdController {
     public RespJson list(HttpServletRequest request, @RequestParam Map<String, Object> param) throws APIException {
         RespJson respJson = null;
         try {
-            respJson = curdBookService.list(request, param);
+            List<RespJson> list = new ArrayList<>();
+            list.add(null);
+            list.add(new RespJson());
+            respJson =  RespJsonFactory.buildSuccess(list);//curdBookService.list(request, param);
         } catch (Exception e) {
             respJson = RespJsonFactory.buildFailure("书籍查询异常");
             throw new APIException("书籍查询异常");

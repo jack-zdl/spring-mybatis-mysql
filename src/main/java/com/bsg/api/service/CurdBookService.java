@@ -9,9 +9,9 @@ import com.bsg.api.entity.BookEntity;
 import com.bsg.api.entity.UserEntity;
 import com.bsg.api.exception.APIException;
 import com.bsg.api.util.*;
-//import org.apache.log4j.Logger;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Service()
 public class CurdBookService extends BaseService {
-//    private static Logger logger = Logger.getLogger(CurdBookService.class);
+    private static Logger logger = Logger.getLogger(CurdBookService.class);
     @Resource
     private BookDao bookDao;
 
@@ -62,7 +62,7 @@ public class CurdBookService extends BaseService {
 //            logger.info("书籍查询成功");
         } catch (Exception e) {
             saveOperateLog(DictTypeConstants.PAGE_SELECT, DictConstants.BUTTON_SELECT, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-//            logger.error("书籍查询异常");
+            logger.error("书籍查询异常");
             e.printStackTrace();
             throw new APIException("书籍查询异常");
         }
@@ -101,7 +101,7 @@ public class CurdBookService extends BaseService {
 //            logger.info("书籍查询成功");
         } catch (Exception e) {
             saveOperateLog(DictTypeConstants.PAGE_SELECT, DictConstants.BUTTON_SELECT, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-//            logger.error("书籍查询异常");
+            logger.error("书籍查询异常");
             e.printStackTrace();
             throw new APIException("书籍查询异常");
         }
@@ -137,7 +137,7 @@ public class CurdBookService extends BaseService {
 //            logger.info("书籍查询成功");
         } catch (Exception e) {
             saveOperateLog(DictTypeConstants.PAGE_SELECT, DictConstants.BUTTON_SELECT, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-//            logger.error("书籍查询异常");
+            logger.error("书籍查询异常");
             e.printStackTrace();
             throw new APIException("书籍查询异常");
         }
@@ -177,7 +177,7 @@ public class CurdBookService extends BaseService {
             respJson = RespJsonFactory.buildSuccess("书籍新增成功。");
         } catch (Exception e) {
             saveOperateLog(DictTypeConstants.PAGE_SELECT, DictConstants.BUTTON_SAVE, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-//            logger.error("书籍新增发生异常");
+            logger.error("书籍新增发生异常");
             e.printStackTrace();
             throw new APIException("书籍新增发生异常");
         }
@@ -214,7 +214,7 @@ public class CurdBookService extends BaseService {
                 throw new APIException("更新的书籍不存在");
             }
         } catch (Exception e) {
-//            logger.error("更新的书籍不存在");
+            logger.error("更新的书籍不存在");
             e.printStackTrace();
             throw new APIException("书籍更新异常");
         }
@@ -242,7 +242,7 @@ public class CurdBookService extends BaseService {
             respJson = RespJsonFactory.buildSuccess("书籍删除成功");
         } catch (Exception e) {
             saveOperateLog(DictTypeConstants.PAGE_SELECT, DictConstants.BUTTON_DELETE, user.getUsername(), SysConstants.ACTION_FAIL, IPUtil.getIp(request));
-//            logger.error("对应书籍不存在");
+            logger.error("对应书籍不存在");
             throw new APIException("对应书籍不存在");
         }
         return respJson;
