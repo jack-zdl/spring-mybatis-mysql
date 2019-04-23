@@ -128,6 +128,8 @@ value                String                         可选的限定描述符，�
 ## 3打印日志信息，将日志下载到某个位置等待查看
 ```
 详情查看log4j.properties.可以控制输出级别，控制台显示，log文件输出。
+2019-4-17 11:54
+log4j vs logback
 ```
 ## 4spring的异常处理对应http状态码
 ```

@@ -180,6 +180,11 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.5</version>
+        </dependency>
         <!--AMQP
             添加rabbitmq的maven依赖
             一般使用rabbitmq来实现AMQP
