@@ -26,7 +26,7 @@ public class TestJedis {
     //java代码连接redis数据库
     @Test
     public void testOldRedisLink() {
-        String HOST_PROPERTY = "localhost";
+        String HOST_PROPERTY = "47.104.87.10";
         String PORT_PROPERTY = "6379";
         //    String PASSWORD_PROPERTY = "redis.password";
         Jedis jedis = new Jedis(HOST_PROPERTY, Integer.parseInt(PORT_PROPERTY));
