@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by zhang on 2017/5/16. sentinels 是redis自带的哨兵，提供redis的主从切换
  */
 public class RedisSentinels {
-    public static final String host = "192.168.2.100";
+    public static final String host = "47.104.87.10";
     public static final String port = "26379";
     public static final String password = "redis_6379";
 
@@ -26,7 +26,7 @@ public class RedisSentinels {
         System.out.println("Current master: " + sentinelPool.getCurrentHostMaster().toString());
 
         Jedis master = sentinelPool.getResource();
-        master.auth(password);
+//        master.auth(password);
 
         master.set("username", "killxioahuang");
         sentinelPool.returnResource(master);

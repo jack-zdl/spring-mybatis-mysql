@@ -19,7 +19,7 @@ public class LogAspect {
     public void pointCut() {
     }
 
-    //@Before("pointCut()")
+//    @Before("pointCut()")
     public void beforeMethod(JoinPoint joinPoint) {
         Object[] objects = joinPoint.getArgs();
 
